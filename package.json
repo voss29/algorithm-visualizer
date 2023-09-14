@@ -1,0 +1,49 @@
+{
+  "name": "algorithm-visualizer",
+  "version": "0.0.1",
+  "description": "A tool to visualize different algorithms",
+  "main": "index.js",
+  "scripts": {
+    "clean": "rm -I ./docs/*",
+    "build-dev": "rm -I ./docs/*; webpack --mode=development --devtool=eval-source-map",
+    "build-prod": "rm -I ./docs/*; webpack --mode=production"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/voss29/algorithm-visualizer.git"
+  },
+  "keywords": [
+    "algorithm",
+    "visualization"
+  ],
+  "author": "voss29",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/voss29/algorithm-visualizer/issues"
+  },
+  "homepage": "https://github.com/voss29/algorithm-visualizer#readme",
+  "dependencies": {
+    "mermaid": "10.4.0",
+    "react": "18.2.0",
+    "react-dom": "18.2.0"
+  },
+  "devDependencies": {
+    "@babel/preset-react": "^7.22.15",
+    "@types/mocha": "^10.0.1",
+    "@types/react": "^18.2.21",
+    "@types/react-dom": "^18.2.7",
+    "babel-loader": "^9.1.3",
+    "css-loader": "^6.8.1",
+    "cypress": "^13.2.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-airbnb-typescript": "^17.1.0",
+    "eslint-plugin-jsx-a11y": "^6.7.1",
+    "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "html-webpack-plugin": "^5.5.3",
+    "style-loader": "^3.3.3",
+    "ts-loader": "^9.4.4",
+    "webpack": "^5.88.2",
+    "webpack-cli": "^5.1.4"
+  }
+}

@@ -1,0 +1,10 @@
+h1 {
+   font-family: "Open Sans", "Times", "sans-serif";
+   color: darkgreen;
+}
+
+.edgeLabel {
+   background-color: white !important;
+   font-weight: bold;
+   color: black !important;
+}

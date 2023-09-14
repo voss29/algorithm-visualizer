@@ -1,0 +1,44 @@
+{
+   "env": {
+      "browser": true,
+      "es2022": true,
+      "node": true
+   },
+   "extends": [
+      "airbnb",
+      "airbnb/hooks",
+      "airbnb-typescript"
+   ],
+   "overrides": [
+      {
+         "files": ["*.ts", "*.tsx"],
+         "parser": "@typescript-eslint/parser",
+         "plugins": ["@typescript-eslint"]
+      }
+   ],
+   "parser": "@typescript-eslint/parser",
+   "parserOptions": {
+      "sourceType": "module",
+      // "project": "./tsconfig.json"
+      "project": "./*"
+   },
+   "plugins": [
+      "react",
+      "@typescript-eslint"
+   ],
+   "rules": {
+      "no-plusplus": "off",
+      "import/prefer-default-export": "off",
+      "react/require-default-props": "off",
+      "no-multiple-empty-lines": "off",
+      "padded-blocks": "off",
+      "@typescript-eslint/indent": ["error", 3],
+      "@typescript-eslint/comma-dangle": "off",
+      "react/jsx-indent": "off",
+      "object-curly-newline": "off",
+      "jsx-a11y/control-has-associated-label": "off",
+      "react/jsx-indent-props": ["error", 3],
+      "react/no-array-index-key": "off",
+      "react-hooks/exhaustive-deps": "off"
+   }
+}
