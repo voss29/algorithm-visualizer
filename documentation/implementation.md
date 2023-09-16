@@ -93,17 +93,18 @@ stateDiagram-v2
         fork1 --> b3
         fork1 --> c3
         fork1 --> d3
+        fork1 --> g3
         b3 --> join1
         c3 --> join1
         d3 --> join1
+        g3 --> join1
         join1 --> a3
         a3 --> fork2
         fork2 --> e3
         fork2 --> f3
         e3 --> join2
         f3 --> join2
-        join2 --> g3
-        g3 --> [*]
+        join2 --> [*]
       }
 
 
