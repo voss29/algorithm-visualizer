@@ -9,7 +9,14 @@
   - [**Table Of Contents**](#table-of-contents)
   - [**Requirements**](#requirements)
   - [**Application Flow**](#application-flow)
+  - [**Wireframes**](#wireframes)
+    - [**Mobile**](#mobile)
+      - [**Landing Page**](#landing-page)
+      - [**Menu**](#menu)
+      - [**Algorithm Description**](#algorithm-description)
+      - [**Algorithm Execution**](#algorithm-execution)
 
+<br>
 <br>
 <br>
 
@@ -17,6 +24,7 @@
 
 * [Requirements Algorithm Visualizer](./requirements.md)
 
+<br>
 <br>
 <br>
 
@@ -160,3 +168,44 @@ stateDiagram-v2
   [*] --> app
   app --> [*]
 ```
+
+<br>
+<br>
+<br>
+
+## **Wireframes**
+<br>
+<br>
+
+### **Mobile**
+<br>
+<br>
+
+#### **Landing Page**
+
+![Image](./images/wireframes/mobile/LandingPage.png)
+
+<br>
+<br>
+
+#### **Menu**
+
+![Image](./images/wireframes/mobile/menuTopCategory.png)
+![Image](./images/wireframes/mobile/menuSubCategory.png)
+![Image](./images/wireframes/mobile/menuSelection.png)
+
+<br>
+<br>
+
+#### **Algorithm Description**
+
+![Image](./images/wireframes/mobile/algorithmDescriptionInputData.png)
+![Image](./images/wireframes/mobile/algorithmDescriptionCoreIdea.png)
+![Image](./images/wireframes/mobile/algorithmDescriptionOutputData.png)
+
+<br>
+<br>
+
+#### **Algorithm Execution**
+
+![Image](./images/wireframes/mobile/algorithmExecution.png)
