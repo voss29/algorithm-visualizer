@@ -15,6 +15,11 @@
       - [**Menu**](#menu)
       - [**Algorithm Description**](#algorithm-description)
       - [**Algorithm Execution**](#algorithm-execution)
+    - [**Desktop**](#desktop)
+      - [**Landing Page**](#landing-page-1)
+      - [**Menu**](#menu-1)
+      - [**Algorithm Description**](#algorithm-description-1)
+      - [**Algorithm Execution**](#algorithm-execution-1)
 
 <br>
 <br>
@@ -209,3 +214,36 @@ stateDiagram-v2
 #### **Algorithm Execution**
 
 ![Image](./images/wireframes/mobile/algorithmExecution.png)
+
+<br>
+<br>
+
+### **Desktop**
+<br>
+<br>
+
+#### **Landing Page**
+
+![Image](./images/wireframes/desktop/landingPage.png)
+
+<br>
+<br>
+
+#### **Menu**
+
+![Image](./images/wireframes/desktop/menuTopCategory.png)
+![Image](./images/wireframes/desktop/menuSubCategory.png)
+
+<br>
+<br>
+
+#### **Algorithm Description**
+
+![Image](./images/wireframes/desktop/algorithmDescription.png)
+
+<br>
+<br>
+
+#### **Algorithm Execution**
+
+![Image](./images/wireframes/desktop/algorithmExecution.png)
