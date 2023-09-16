@@ -188,7 +188,7 @@ stateDiagram-v2
 
 #### **Landing Page**
 
-![Image](./images/wireframes/mobile/LandingPage.png)
+![Image](./images/wireframes/mobile/landingPage.png)
 
 <br>
 <br>
