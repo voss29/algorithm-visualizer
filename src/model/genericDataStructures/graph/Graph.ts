@@ -1,19 +1,9 @@
 /* eslint-disable no-restricted-syntax */
 import { cloneDeep } from 'lodash';
+import { Edge, GraphInterface } from './graphTypes';
 
 
-// immutable data structure representing a graph
-
-
-type Edge<NodeType> = {
-   startNode: NodeType,
-   endNode: NodeType,
-   isDirected?: boolean,
-   weight?: number
-};
-
-
-class Graph<Node extends string | number> {
+class Graph<Node extends string | number> implements GraphInterface<Node> {
 
    #nodeList: Node[];
    #edgeList: ({ id: number } & Edge<Node>)[];
