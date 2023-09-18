@@ -32,9 +32,7 @@ describe('mermaidGraphParser', () => {
          graph: testGraph,
          direction: 'LR',
          nodeHighlightList: ['A', 'C'],
-         nodeHighlightStyle: 'fill:red,stroke:black,stroke-width:2px,font-weight:bold',
          edgeHighlightList: [1, 2],
-         edgeHighlightStyle: 'stroke:orange,stroke-width:4px'
       };
    });
 
@@ -73,13 +71,7 @@ describe('mermaidGraphParser', () => {
 
       it('parses node highlighting correctly', () => {
          const result = parseNodeHighlighting(config);
-         assert.equal(result, 'classDef highlightedNode fill:red,stroke:black,stroke-width:2px,font-weight:bold\nclass A,C highlightedNode');
-      });
-
-      it('returns empty string for missing config property nodeHighlightStyle', () => {
-         config.nodeHighlightStyle = undefined;
-         const result = parseNodeHighlighting(config);
-         assert.equal(result, '');
+         assert.equal(result, 'classDef highlightedNode fill:black,stroke:black,stroke-width:2px,color:white\nclass A,C highlightedNode');
       });
 
       it('returns empty string for missing config property nodeHighlightList', () => {
@@ -95,13 +87,7 @@ describe('mermaidGraphParser', () => {
 
       it('parses edge highlighting correctly', () => {
          const result = parseEdgeHighlighting(config);
-         assert.equal(result, 'linkStyle 1,2 stroke:orange,stroke-width:4px');
-      });
-
-      it('returns empty string for missing config property edgeHighlightStyle', () => {
-         config.edgeHighlightStyle = undefined;
-         const result = parseEdgeHighlighting(config);
-         assert.equal(result, '');
+         assert.equal(result, 'linkStyle 1,2 stroke:#094fe8,stroke-width:5px');
       });
 
       it('returns empty string for missing config property edgeHighlightList', () => {
@@ -118,7 +104,7 @@ describe('mermaidGraphParser', () => {
 
       it('parses graph correctly', () => {
          const result = parseMermaidGraph(config);
-         assert.equal(result, '%%{ init: { "flowchart": { "curve": "linear" } } }%%\nflowchart LR\nA((A))\nB((B))\nC((C))\nA -- 5 --- B\nB -- 2 --> C\nC --> A\nclassDef highlightedNode fill:red,stroke:black,stroke-width:2px,font-weight:bold\nclass A,C highlightedNode\nlinkStyle 1,2 stroke:orange,stroke-width:4px\n');
+         assert.equal(result, '%%{ init: {"flowchart":{"curve":"linear"},"theme":"base","themeVariables":{"primaryColor":"#e5e5e5","secondaryColor":"white","primaryBorderColor":"black"}}}%%\nflowchart LR\nA((A))\nB((B))\nC((C))\nA -- 5 --- B\nB -- 2 --> C\nC --> A\nclassDef highlightedNode fill:black,stroke:black,stroke-width:2px,color:white\nclass A,C highlightedNode\nlinkStyle 1,2 stroke:#094fe8,stroke-width:5px\n');
       });
 
    });
