@@ -1,5 +1,3 @@
-.edgeLabel {
-   background-color: white !important;
+.edgeLabel, #graph .label {
    font-weight: bold;
-   color: black !important;
 }
