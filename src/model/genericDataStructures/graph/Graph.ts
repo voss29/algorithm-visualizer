@@ -3,13 +3,13 @@ import { cloneDeep } from 'lodash';
 import { Edge, GraphInterface } from './graphTypes';
 
 
-class Graph<Node extends string | number> implements GraphInterface<Node> {
+class Graph implements GraphInterface {
 
-   #nodeList: Node[];
-   #edgeList: ({ id: number } & Edge<Node>)[];
+   #nodeList: string[];
+   #edgeList: ({ id: number } & Edge)[];
 
 
-   constructor(nodeList: Node[], edgeList: Edge<Node>[] = []) {
+   constructor(nodeList: string[], edgeList: Edge[] = []) {
       if (!nodeList) {
          throw new Error('Parameter nodeList is missing');
       }
@@ -46,12 +46,12 @@ class Graph<Node extends string | number> implements GraphInterface<Node> {
    }
 
 
-   getNeighborNodeListFor(node: Node) {
+   getNeighborNodeListFor(node: string) {
       if (this.#isNodeUnknown([node])) {
          throw new Error(`Node ${node} does not exist`);
       }
 
-      const neighborNodeSet = new Set<Node>();
+      const neighborNodeSet = new Set<string>();
 
       for (const edge of this.#edgeList) {
          const isStartNode = node === edge.startNode;
@@ -70,7 +70,7 @@ class Graph<Node extends string | number> implements GraphInterface<Node> {
    }
 
 
-   getListOfEdgesBetween(node1: Node, node2: Node) {
+   getListOfEdgesBetween(node1: string, node2: string) {
       if (this.#isNodeUnknown([node1])) {
          throw new Error(`Node ${node1} does not exist`);
       }
@@ -91,7 +91,7 @@ class Graph<Node extends string | number> implements GraphInterface<Node> {
    }
 
 
-   #containsEdgeListUnknownNodes(edgeList: Edge<Node>[]) {
+   #containsEdgeListUnknownNodes(edgeList: Edge[]) {
       for (const edge of edgeList) {
          if (this.#isNodeUnknown([edge.startNode, edge.endNode])) {
             return true;
@@ -101,19 +101,19 @@ class Graph<Node extends string | number> implements GraphInterface<Node> {
    }
 
 
-   #initializeNodeList(nodeList: Node[]) {
+   #initializeNodeList(nodeList: string[]) {
       const listWithoutDuplicates = [...new Set(nodeList)];
       return cloneDeep(listWithoutDuplicates);
    }
 
 
-   #initializeEdgeList(edgeList: Edge<Node>[]) {
+   #initializeEdgeList(edgeList: Edge[]) {
       const indexedEdgeList = edgeList.map((element, index) => ({ id: index, ...element }));
       return cloneDeep(indexedEdgeList);
    }
 
 
-   #isNodeUnknown(nodeList: Node[]) {
+   #isNodeUnknown(nodeList: string[]) {
       for (const node of nodeList) {
          if (!this.#nodeList.includes(node)) {
             return true;

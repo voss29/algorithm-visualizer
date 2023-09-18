@@ -34,7 +34,7 @@ const graphConfig: GraphGeneratorConfig = {
 
 const randomGraph = generateRandomGraph(graphConfig);
 
-const mermaidParserConfig: MermaidGraphParserConfig<string> = {
+const mermaidParserConfig: MermaidGraphParserConfig = {
    graph: randomGraph,
    direction: 'LR',
    nodeHighlightList: ['A', 'C', 'E'],

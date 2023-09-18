@@ -1,17 +1,17 @@
 import { GraphInterface } from '../../../model/genericDataStructures/graph/graphTypes';
 
 
-type MermaidGraphParserConfig<T extends string | number> = {
-   graph: GraphInterface<T>,
+type MermaidGraphParserConfig = {
+   graph: GraphInterface,
    direction: 'LR' | 'RL' | 'TB' | 'BT'
-   nodeHighlightList?: T[],
+   nodeHighlightList?: string[],
    edgeHighlightList?: number[],
    nodeHighlightStyle?: string,
    edgeHighlightStyle?: string
 };
 
 
-function parseMermaidGraph(config: MermaidGraphParserConfig<string>) {
+function parseMermaidGraph(config: MermaidGraphParserConfig) {
    const { direction } = config;
    const lineList: string[] = [];
 
@@ -26,7 +26,7 @@ function parseMermaidGraph(config: MermaidGraphParserConfig<string>) {
 }
 
 
-function parseNodeDefinitions(config: MermaidGraphParserConfig<string>) {
+function parseNodeDefinitions(config: MermaidGraphParserConfig) {
    const { graph } = config;
 
    const nodeList = graph.nodeList.map((node) => `${node}((${node}))`);
@@ -34,7 +34,7 @@ function parseNodeDefinitions(config: MermaidGraphParserConfig<string>) {
 }
 
 
-function parseEdgeDefinitions(config: MermaidGraphParserConfig<string>) {
+function parseEdgeDefinitions(config: MermaidGraphParserConfig) {
    const { graph } = config;
 
    const edgeList = graph.edgeList.map((edge) => {
@@ -49,7 +49,7 @@ function parseEdgeDefinitions(config: MermaidGraphParserConfig<string>) {
 }
 
 
-function parseNodeHighlighting(config: MermaidGraphParserConfig<string>) {
+function parseNodeHighlighting(config: MermaidGraphParserConfig) {
    const { nodeHighlightStyle, nodeHighlightList } = config;
 
    const hasHighlights = nodeHighlightStyle && nodeHighlightList && nodeHighlightList.length > 0;
@@ -64,7 +64,7 @@ function parseNodeHighlighting(config: MermaidGraphParserConfig<string>) {
 }
 
 
-function parseEdgeHighlighting(config: MermaidGraphParserConfig<string>) {
+function parseEdgeHighlighting(config: MermaidGraphParserConfig) {
    const { edgeHighlightStyle, edgeHighlightList } = config;
 
    const hasHighlights = edgeHighlightStyle && edgeHighlightList && edgeHighlightList.length > 0;

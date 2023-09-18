@@ -4,7 +4,7 @@ import { Graph, Edge } from '../../../src/model/genericDataStructures/graph/Grap
 
 const nodeList = ['A', 'B', 'C'];
 
-const edgeList: Edge<string>[] = [
+const edgeList: Edge[] = [
    { startNode: 'A', endNode: 'B', weight: 2 },
    { startNode: 'C', endNode: 'A', weight: 24 },
    { startNode: 'B', endNode: 'C', weight: 6 },
@@ -19,7 +19,7 @@ describe('Graph.constructor', () => {
    it('throws an error for missing parameter nodeList', () => {
       const missingParameter = undefined as unknown;
       expect(
-         () => new Graph<string>(missingParameter as string[], edgeList)
+         () => new Graph(missingParameter as string[], edgeList)
       ).to.throw(Error, 'Parameter nodeList is missing');
    });
 
@@ -27,7 +27,7 @@ describe('Graph.constructor', () => {
    it('throws an error if parameter nodeList is not an array', () => {
       const nonArrayParameter = 'notAnArray' as unknown;
       expect(
-         () => new Graph<string>(nonArrayParameter as string[], edgeList)
+         () => new Graph(nonArrayParameter as string[], edgeList)
       ).to.throw(Error, 'Parameter nodeList must be an array');
    });
 
@@ -35,7 +35,7 @@ describe('Graph.constructor', () => {
    it('throws an error for empty nodeList', () => {
       const emptyNodeList: string[] = [];
       expect(
-         () => new Graph<string>(emptyNodeList, edgeList)
+         () => new Graph(emptyNodeList, edgeList)
       ).to.throw(Error, 'Parameter nodeList must contain at least one node');
    });
 
@@ -43,7 +43,7 @@ describe('Graph.constructor', () => {
    it('throws an error if parameter edgeList is not an array', () => {
       const nonArrayParameter = 'notAnArray' as unknown;
       expect(
-         () => new Graph<string>(nodeList, nonArrayParameter as Edge<string>[])
+         () => new Graph(nodeList, nonArrayParameter as Edge[])
       ).to.throw(Error, 'Parameter edgeList must be an array');
    });
 
@@ -54,27 +54,27 @@ describe('Graph.constructor', () => {
          { startNode: 'B', endNode: 'X', weight: 2 },
       ];
       expect(
-         () => new Graph<string>(nodeList, edgeListWithUnknownNode)
+         () => new Graph(nodeList, edgeListWithUnknownNode)
       ).to.throw(Error, 'Parameter edgeList contains nodes that are not included in the nodeList');
    });
 
 
    it('instantiates graph object from valid nodeList and edgeList', () => {
-      expect(() => new Graph<string>(nodeList, edgeList)).not.to.throw(Error);
+      expect(() => new Graph(nodeList, edgeList)).not.to.throw(Error);
    });
 
 
    it('removes duplicates from node list during instantiation', () => {
       const duplicateNodeList = ['A', 'B', 'C', 'B', 'D', 'A'];
       const expectedNodeList = ['A', 'B', 'C', 'D'];
-      const graph = new Graph<string>(duplicateNodeList, edgeList);
+      const graph = new Graph(duplicateNodeList, edgeList);
       assert.deepEqual(graph.nodeList, expectedNodeList);
    });
 
 
    it('initializes property nodeList with clone of parameter to ensure immutability', () => {
       const mutableNodeList = ['A', 'B', 'C'];
-      const graph = new Graph<string>(mutableNodeList, edgeList);
+      const graph = new Graph(mutableNodeList, edgeList);
       assert.deepEqual(graph.nodeList, mutableNodeList);
       mutableNodeList.push('D');
       assert.notDeepEqual(graph.nodeList, mutableNodeList);
@@ -82,20 +82,20 @@ describe('Graph.constructor', () => {
 
 
    it('initializes property edgeList with clone of parameter to ensure immutability', () => {
-      const mutableEdgeList: Edge<string>[] = [
+      const mutableEdgeList: Edge[] = [
          { startNode: 'A', endNode: 'B', weight: 2 },
          { startNode: 'C', endNode: 'A', weight: 24 },
          { startNode: 'B', endNode: 'C', weight: 6 },
          { startNode: 'B', endNode: 'A', weight: 5 }
       ];
-      const graph = new Graph<string>(nodeList, mutableEdgeList);
+      const graph = new Graph(nodeList, mutableEdgeList);
       mutableEdgeList[0].weight = 200;
       assert.equal(graph.edgeList[0].weight, 2);
    });
 
 
    it('correctly initializes and enumerates property edgeList', () => {
-      let graph = new Graph<string>(nodeList, edgeList);
+      let graph = new Graph(nodeList, edgeList);
       const expectedEdgeList = [
          { id: 0, startNode: 'A', endNode: 'B', weight: 2 },
          { id: 1, startNode: 'C', endNode: 'A', weight: 24 },
@@ -108,7 +108,7 @@ describe('Graph.constructor', () => {
          { startNode: 'B', endNode: 'A', isDirected: true, weight: 3 },
          { startNode: 'B', endNode: 'C', weight: 6 }
       ];
-      graph = new Graph<string>(nodeList, newEdgeList);
+      graph = new Graph(nodeList, newEdgeList);
       const expectedEdgeList2 = [
          { id: 0, startNode: 'B', endNode: 'A', isDirected: true, weight: 3 },
          { id: 1, startNode: 'B', endNode: 'C', weight: 6 }
@@ -123,7 +123,7 @@ describe('Graph.constructor', () => {
 describe('Graph.nodeList', () => {
 
    it('returns clone of nodeList to ensure graph is immutable', () => {
-      const graph = new Graph<string>(nodeList, edgeList);
+      const graph = new Graph(nodeList, edgeList);
       const receivedNodeList = graph.nodeList;
       assert.notEqual(receivedNodeList, nodeList);
       assert.deepEqual(receivedNodeList, nodeList);
@@ -138,7 +138,7 @@ describe('Graph.nodeList', () => {
 describe('Graph.edgeList', () => {
 
    it('returns clone of edgeList to ensure graph is immutable', () => {
-      const graph = new Graph<string>(nodeList, edgeList);
+      const graph = new Graph(nodeList, edgeList);
       const receivedEdgeList = graph.edgeList;
       const expectedEdgeList = [
          { id: 0, startNode: 'A', endNode: 'B', weight: 2 },
@@ -158,11 +158,11 @@ describe('Graph.edgeList', () => {
 
 describe('Graph.getNeighborNodeListFor()', () => {
 
-   let graph: Graph<string>;
+   let graph: Graph;
 
 
    beforeEach(() => {
-      graph = new Graph<string>(nodeList, edgeList);
+      graph = new Graph(nodeList, edgeList);
    });
 
 
@@ -180,7 +180,7 @@ describe('Graph.getNeighborNodeListFor()', () => {
          { startNode: 'B', endNode: 'C', isDirected: true },
          { startNode: 'C', endNode: 'A', isDirected: true }
       ];
-      const directedGraph = new Graph<string>(nodeList, directedEdgeList);
+      const directedGraph = new Graph(nodeList, directedEdgeList);
       assert.deepEqual(directedGraph.getNeighborNodeListFor('A'), ['B']);
       assert.deepEqual(directedGraph.getNeighborNodeListFor('B'), ['A', 'C']);
       assert.deepEqual(directedGraph.getNeighborNodeListFor('C'), ['A']);
@@ -189,7 +189,7 @@ describe('Graph.getNeighborNodeListFor()', () => {
 
    it('returns empty list for nodes with no neighbors', () => {
       const newNodeList = ['A', 'B', 'C', 'D'];
-      const newGraph = new Graph<string>(newNodeList, edgeList);
+      const newGraph = new Graph(newNodeList, edgeList);
       const neighborList = newGraph.getNeighborNodeListFor('D');
       assert.deepEqual(neighborList, []);
       assert.equal(neighborList.length, 0);
@@ -201,11 +201,11 @@ describe('Graph.getNeighborNodeListFor()', () => {
 
 describe('Graph.getListOfEdgesBetween()', () => {
 
-   let graph: Graph<string>;
+   let graph: Graph;
 
 
    beforeEach(() => {
-      graph = new Graph<string>(nodeList, edgeList);
+      graph = new Graph(nodeList, edgeList);
    });
 
 
@@ -239,7 +239,7 @@ describe('Graph.getListOfEdgesBetween()', () => {
          { startNode: 'B', endNode: 'C', isDirected: true },
          { startNode: 'C', endNode: 'A', isDirected: true }
       ];
-      const directedGraph = new Graph<string>(nodeList, directedEdgeList);
+      const directedGraph = new Graph(nodeList, directedEdgeList);
 
       assert.deepEqual(
          directedGraph.getListOfEdgesBetween('B', 'C'),

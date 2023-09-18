@@ -1,16 +1,16 @@
-type Edge<NodeType> = {
-   startNode: NodeType,
-   endNode: NodeType,
+type Edge = {
+   startNode: string,
+   endNode: string,
    isDirected?: boolean,
    weight?: number
 };
 
 
-interface GraphInterface<Node extends string | number> {
-   readonly nodeList: Node[],
-   readonly edgeList: ({ id: number } & Edge<Node>)[],
-   getNeighborNodeListFor: (node: Node) => Node[],
-   getListOfEdgesBetween: (node1: Node, node2: Node) => ({ id: number } & Edge<Node>)[]
+interface GraphInterface {
+   readonly nodeList: string[],
+   readonly edgeList: ({ id: number } & Edge)[],
+   getNeighborNodeListFor: (node: string) => string[],
+   getListOfEdgesBetween: (node1: string, node2: string) => ({ id: number } & Edge)[]
 }
 
 

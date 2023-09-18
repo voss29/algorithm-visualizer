@@ -5,7 +5,7 @@ import './graphVisualization.css';
 
 
 type Props = {
-   parserConfig: MermaidGraphParserConfig<string>
+   parserConfig: MermaidGraphParserConfig
 };
 
 

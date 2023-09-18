@@ -4,7 +4,7 @@ import { Edge, GraphInterface } from '../genericDataStructures/graph/graphTypes'
 import { Graph } from '../genericDataStructures/graph/Graph';
 
 
-function generateRandomGraph(config: GraphGeneratorConfig): GraphInterface<string> {
+function generateRandomGraph(config: GraphGeneratorConfig): GraphInterface {
    validateConfiguration(config);
    const nodeList = generateRandomNodeList(config);
    const edgeList = generateRandomEdgeList(config, nodeList);
@@ -68,7 +68,7 @@ function generateRandomEdgeAmountList(config: GraphGeneratorConfig, nodeList: st
 function generateRandomEdgePairList(config: GraphGeneratorConfig, edgeAmountMap: EdgeAmountMap) {
    const { allowRecursiveEdges } = config;
 
-   const nodePairList: Edge<string>[] = [];
+   const nodePairList: Edge[] = [];
 
    while (true) {
       // sort in descending order
@@ -100,7 +100,7 @@ function generateRandomEdgePairList(config: GraphGeneratorConfig, edgeAmountMap:
 }
 
 
-function addRandomWeight(config: GraphGeneratorConfig, edgeList: Edge<string>[]) {
+function addRandomWeight(config: GraphGeneratorConfig, edgeList: Edge[]) {
    const { edgeWeight } = config;
 
    if (!edgeWeight) {
@@ -116,7 +116,7 @@ function addRandomWeight(config: GraphGeneratorConfig, edgeList: Edge<string>[])
 }
 
 
-function addRandomDirection(config: GraphGeneratorConfig, edgeList: Edge<string>[]) {
+function addRandomDirection(config: GraphGeneratorConfig, edgeList: Edge[]) {
    const { isDirected } = config;
 
    switch (isDirected) {

@@ -12,11 +12,11 @@ import {
 
 describe('mermaidGraphParser', () => {
 
-   let config: MermaidGraphParserConfig<string>;
+   let config: MermaidGraphParserConfig;
 
 
    beforeEach(() => {
-      const testGraph: GraphInterface<string> = {
+      const testGraph: GraphInterface = {
          nodeList: ['A', 'B', 'C'],
          edgeList: [
             { id: 0, startNode: 'A', endNode: 'B', weight: 5 },
