@@ -136,7 +136,7 @@ describe('graphGenerator.generateRandomEdgeAmountMap()', () => {
 });
 
 
-describe('graphGenerator.generateRandomNodePairList()', () => {
+describe('graphGenerator.generateRandomEdgePairList()', () => {
 
    it('generates random node pair list according to config with recursive edges', () => {
       const config = generateValidConfiguration();
