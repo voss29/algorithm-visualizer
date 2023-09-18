@@ -29,7 +29,7 @@ const graphConfig: GraphGeneratorConfig = {
    nodeAmount: { min: 5, max: 10 },
    edgesPerNode: { min: 1, max: 3 },
    edgeWeight: { min: 2, max: 10 },
-   allowRecursiveEdges: false
+   allowRecursiveEdges: true
 };
 
 const randomGraph = generateRandomGraph(graphConfig);
@@ -38,9 +38,7 @@ const mermaidParserConfig: MermaidGraphParserConfig = {
    graph: randomGraph,
    direction: 'LR',
    nodeHighlightList: ['A', 'C', 'E'],
-   nodeHighlightStyle: 'fill:red,stroke:black,stroke-width:2px,font-weight:bold',
-   edgeHighlightList: [1, 2, 3, 4, 5],
-   edgeHighlightStyle: 'stroke:blue,stroke-width:4px'
+   edgeHighlightList: [0, 1, 2],
 };
 
 const applicationContainer = document.getElementById('reactApp');
