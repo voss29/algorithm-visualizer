@@ -1,0 +1,77 @@
+.menuBar {
+   background-color: #1a1717;
+   border-right: 2px solid black;
+   height: 100vh;
+   left: -29vw;
+   position: fixed;
+   top: 0;
+   width: 33vw;
+
+   display: grid;
+   grid-template-columns: 29vw 4vw;
+   grid-template-rows: 4rem 1fr;
+   overflow-x: hidden;
+}
+
+.menuBarCollapsed {
+   left: -29vw;
+   transition: left 1s ease;
+}
+
+.menuBarExpanded {
+   left: 0;
+   transition: left 1s ease;
+}
+
+.menuBar > header {
+   align-items: center;
+   display: flex;
+   gap: 2rem;
+   grid-column: 1 / 2;
+   grid-row: 1 / 2;
+   padding-left: 1rem;
+   user-select: none;
+}
+
+.menuBar > nav {
+   grid-column: 1 / 2;
+   grid-row: 2 / 3;
+   padding: 1rem;
+   overflow-y: auto;
+}
+
+
+/* ====== NEU START ======*/
+
+
+.menuBar > nav button {
+   background: none;
+   border: none;
+   color: white;
+   font-weight: bold;
+   padding: .5rem 0;
+   text-align: start;
+   width: 100%;
+}
+
+/* ====== NEU START ======*/
+
+.menuIconContainer {
+   align-items: center;
+   display: flex;
+   grid-column: 2 / 3;
+   grid-row: 1 / 2;
+   justify-content: center;
+}
+
+.menuBar > aside {
+   grid-column: 2 / 3;
+   grid-row: 2 / 3;
+}
+
+.menuBarSubMenuNavigation {
+   align-items: center;
+   display: flex;
+   font-size: 1.5rem;
+   gap: 2rem;
+}
