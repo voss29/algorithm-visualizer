@@ -7,7 +7,7 @@ import {
    parseNodeHighlighting,
    parseEdgeHighlighting,
    MermaidGraphParserConfig
-} from '../../src/view/components/Graph/mermaidGraphParser';
+} from '../../src/view/shared/GraphVisualization/mermaidGraphParser';
 
 
 describe('mermaidGraphParser', () => {
