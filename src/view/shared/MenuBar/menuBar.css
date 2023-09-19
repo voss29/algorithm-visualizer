@@ -1,16 +1,16 @@
 .menuBar {
    background-color: #1a1717;
    border-right: 2px solid black;
-   height: 100vh;
-   left: -29vw;
-   position: fixed;
-   top: 0;
-   width: 33vw;
-
    display: grid;
    grid-template-columns: 29vw 4vw;
    grid-template-rows: 4rem 1fr;
+   height: 100vh;
+   left: -29vw;
    overflow-x: hidden;
+   position: fixed;
+   top: 0;
+   width: 33vw;
+   z-index: 2;
 }
 
 .menuBarCollapsed {
