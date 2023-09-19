@@ -1,0 +1,20 @@
+*, *::before, *::after {
+   box-sizing: border-box;
+   margin: 0;
+}
+
+:root {
+   --background-color: rgb(41, 39, 39);
+   --font-color: rgb(233, 226, 226);
+}
+
+body {
+   font-family: "Open Sans", "Verdana", sans-serif;
+   padding-left: 4vw;
+}
+
+#reactApp {
+   background-color: var(--background-color);
+   color: var(--font-color);
+   min-height: 100vh;
+}
