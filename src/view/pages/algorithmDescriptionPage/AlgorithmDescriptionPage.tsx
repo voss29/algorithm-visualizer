@@ -77,7 +77,7 @@ function AlgorithmDescriptionPage(): ReactElement {
          <header>
             <h2>Dijkstra&apos;s Algorithm</h2>
          </header>
-         <section className="algorithmDescriptionPageInputData">
+         <section>
             <h3>Input Data</h3>
             { visualizeGraph() }
          </section>
