@@ -24,13 +24,19 @@ const config = {
             test: /\.css$/,
             use: ['style-loader', 'css-loader'],
             exclude: /node_modules/
+         },
+         {
+            test: /\.svg$/,
+            loader: 'file-loader'
          }
+
       ]
    },
    plugins: [
       new HtmlWebPackPlugin({
          template: path.join(__dirname, 'src', 'index.html'),
-         filename: 'index.html'
+         filename: 'index.html',
+         favicon: path.join(__dirname, 'src', 'view', 'icons', 'appLogo.svg')
       })
    ],
    resolve: {
