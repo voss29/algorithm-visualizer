@@ -1,5 +1,6 @@
 import React, { ReactElement } from 'react';
 import { AlgorithmCategory } from '../menuBarTypes';
+import arrowRightIcon from '../../../icons/arrowRightIcon.svg';
 import './menuItem.css';
 
 
@@ -19,11 +20,11 @@ function MenuItem(itemData: Props): ReactElement {
          const { isCategory, name } = child;
          const className = (isCategory) ? 'menuItemSubCategory' : '';
          const clickHandler = (isCategory) ? () => selectCategory(name) : child.loadPage;
-         const buttonText = `${name}${(isCategory) ? '>' : ''}`; // TODO: Replace with css ::after element
 
          return (
             <button type="button" key={index} className={className} onClick={clickHandler}>
-               {buttonText}
+               {name}
+               {(isCategory) ? <img src={arrowRightIcon} alt=">" width="20" height="20" draggable="false" /> : null}
             </button>
          );
       });
