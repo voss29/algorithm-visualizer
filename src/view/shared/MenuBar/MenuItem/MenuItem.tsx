@@ -14,7 +14,7 @@ function MenuItem(itemData: Props): ReactElement {
 
 
    function buildSubItemList(): ReactElement[] {
-      return category.childList.map((child) => {
+      return category.childList.map((child, index) => {
 
          const { isCategory, name } = child;
          const className = (isCategory) ? 'menuItemSubCategory' : '';
@@ -22,7 +22,7 @@ function MenuItem(itemData: Props): ReactElement {
          const buttonText = `${name}${(isCategory) ? '>' : ''}`; // TODO: Replace with css ::after element
 
          return (
-            <button type="button" className={className} onClick={clickHandler}>
+            <button type="button" key={index} className={className} onClick={clickHandler}>
                {buttonText}
             </button>
          );
