@@ -36,13 +36,14 @@ function MenuBar(props: Props): ReactElement {
          return ([
             <button
                type="button"
+               key="1"
                className="menuBarSubMenuNavigation"
                onClick={() => setSelectedCategoryName('')}
             >
                <img src={backArrowIcon} alt="Back" width="40" height="40" draggable="false" />
                Main Menu
             </button>,
-            <MenuItem category={selectedCategory} selectCategory={selectCategory} />
+            <MenuItem key="2" category={selectedCategory} selectCategory={selectCategory} />
          ]);
       }
 
