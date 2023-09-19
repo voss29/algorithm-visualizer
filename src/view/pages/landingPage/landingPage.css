@@ -1,0 +1,19 @@
+.landingPage {
+   align-items: center;
+   display: flex;
+   font-weight: bold;
+   justify-content: center;
+   min-height: 100vh;
+}
+
+.landingPage > figure {
+   align-items: center;
+   display: flex;
+   flex-direction: column;
+   user-select: none;
+}
+
+.landingPage figcaption {
+   font-size: 1.5rem;
+   margin-top: 1rem;
+}
