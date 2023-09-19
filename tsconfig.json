@@ -10,8 +10,8 @@
       "target": "ES2022",
       "allowJs": true,
       "jsx": "react",
-      "typeRoots": ["node_modules/@types"],
+      "typeRoots": ["node_modules/@types", "types"],
       "allowSyntheticDefaultImports": true,
    },
-   "include": ["src", "cypress", "test"]
+   "include": ["src", "cypress", "test", "types"]
 }
