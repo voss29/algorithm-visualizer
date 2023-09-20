@@ -51,11 +51,11 @@ function parseEdgeDefinitions(config: MermaidGraphParserConfig) {
    const { graph } = config;
 
    const edgeList = graph.edgeList.map((edge) => {
-      const arrow = (edge.isDirected) ? '>' : '-';
+      const arrowCharacter = (edge.isDirected) ? '>' : '-';
       if (edge.weight) {
-         return `${edge.startNode} -- ${edge.weight} --${arrow} ${edge.endNode}`;
+         return `${edge.startNode} -- ${edge.weight} --${arrowCharacter} ${edge.endNode}`;
       }
-      return `${edge.startNode} --${arrow} ${edge.endNode}`;
+      return `${edge.startNode} --${arrowCharacter} ${edge.endNode}`;
    });
 
    return edgeList.join('\n');
@@ -65,10 +65,10 @@ function parseEdgeDefinitions(config: MermaidGraphParserConfig) {
 function parseNodeHighlighting(config: MermaidGraphParserConfig) {
    const { nodeHighlightList } = config;
 
-   const hasHighlights = nodeHighlightList && nodeHighlightList.length > 0;
    const lineList: string[] = [];
+   const hasHighlightedNodes = nodeHighlightList && nodeHighlightList.length > 0;
 
-   if (hasHighlights) {
+   if (hasHighlightedNodes) {
       lineList.push(`classDef highlightedNode ${style.nodeHighlightStyle}`);
       lineList.push(`class ${nodeHighlightList.join(',')} highlightedNode`);
    }
@@ -80,8 +80,8 @@ function parseNodeHighlighting(config: MermaidGraphParserConfig) {
 function parseEdgeHighlighting(config: MermaidGraphParserConfig) {
    const { edgeHighlightList } = config;
 
-   const hasHighlights = edgeHighlightList && edgeHighlightList.length > 0;
-   return (hasHighlights) ? `linkStyle ${edgeHighlightList.join(',')} ${style.edgeHighlightStyle}` : '';
+   const hasHighlighedEdges = edgeHighlightList && edgeHighlightList.length > 0;
+   return (hasHighlighedEdges) ? `linkStyle ${edgeHighlightList.join(',')} ${style.edgeHighlightStyle}` : '';
 }
 
 
