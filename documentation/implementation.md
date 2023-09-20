@@ -20,6 +20,7 @@
       - [**Menu**](#menu-1)
       - [**Algorithm Description**](#algorithm-description-1)
       - [**Algorithm Execution**](#algorithm-execution-1)
+  - [**Random Graph Visualization**](#random-graph-visualization)
 
 <br>
 <br>
@@ -248,3 +249,25 @@ stateDiagram-v2
 #### **Algorithm Execution**
 
 ![Image](./images/wireframes/desktop/algorithmExecution.png)
+
+<br>
+<br>
+<br>
+
+## **Random Graph Visualization**
+<br>
+
+```mermaid
+flowchart LR
+  A[GraphGeneratorConfig]
+  B[graphGenerator.ts]
+  C[Graph.ts]
+  D[MermaidGraphParserConfig]
+  E[mermaidGraphParser]
+  F[mermaidRenderer]
+  A --> B
+  B -- generates --> C
+  C -- isIncluded --> D
+  D --> E
+  E --> F
+```
