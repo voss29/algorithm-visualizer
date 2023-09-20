@@ -51,11 +51,13 @@ function parseEdgeDefinitions(config: MermaidGraphParserConfig) {
    const { graph } = config;
 
    const edgeList = graph.edgeList.map((edge) => {
-      const arrowCharacter = (edge.isDirected) ? '>' : '-';
-      if (edge.weight) {
-         return `${edge.startNode} -- ${edge.weight} --${arrowCharacter} ${edge.endNode}`;
+      const { startNode, endNode, isDirected, weight } = edge;
+      const arrowCharacter = (isDirected) ? '>' : '-';
+
+      if (weight) {
+         return `${startNode} -- ${weight} --${arrowCharacter} ${endNode}`;
       }
-      return `${edge.startNode} --${arrowCharacter} ${edge.endNode}`;
+      return `${startNode} --${arrowCharacter} ${endNode}`;
    });
 
    return edgeList.join('\n');
