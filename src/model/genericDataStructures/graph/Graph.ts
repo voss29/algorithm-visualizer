@@ -1,4 +1,3 @@
-/* eslint-disable no-restricted-syntax */
 import { cloneDeep } from 'lodash';
 import { Edge, GraphInterface } from './graphTypes';
 
@@ -28,7 +27,7 @@ class Graph implements GraphInterface {
          throw new Error('Parameter edgeList must be an array');
       }
 
-      if (this.#containsEdgeListUnknownNodes(edgeList)) {
+      if (this.#isEdgeListContainingUnknownNodes(edgeList)) {
          throw new Error('Parameter edgeList contains nodes that are not included in the nodeList');
       }
 
@@ -53,7 +52,7 @@ class Graph implements GraphInterface {
 
       const neighborNodeSet = new Set<string>();
 
-      for (const edge of this.#edgeList) {
+      this.#edgeList.forEach((edge) => {
          const isStartNode = node === edge.startNode;
          const isEndNodeOfUndirectedEdge = !edge.isDirected && node === edge.endNode;
 
@@ -64,7 +63,7 @@ class Graph implements GraphInterface {
          if (isEndNodeOfUndirectedEdge) {
             neighborNodeSet.add(edge.startNode);
          }
-      }
+      });
 
       return [...neighborNodeSet];
    }
@@ -91,16 +90,6 @@ class Graph implements GraphInterface {
    }
 
 
-   #containsEdgeListUnknownNodes(edgeList: Edge[]) {
-      for (const edge of edgeList) {
-         if (this.#isNodeUnknown([edge.startNode, edge.endNode])) {
-            return true;
-         }
-      }
-      return false;
-   }
-
-
    #initializeNodeList(nodeList: string[]) {
       const listWithoutDuplicates = [...new Set(nodeList)];
       return cloneDeep(listWithoutDuplicates);
@@ -113,9 +102,22 @@ class Graph implements GraphInterface {
    }
 
 
-   #isNodeUnknown(nodeList: string[]) {
-      for (const node of nodeList) {
-         if (!this.#nodeList.includes(node)) {
+   #isEdgeListContainingUnknownNodes(edgeList: Edge[]) {
+      for (let i = 0; i < edgeList.length; i++) {
+         const edge = edgeList[i];
+         if (this.#isNodeUnknown([edge.startNode, edge.endNode])) {
+            return true;
+         }
+      }
+
+      return false;
+   }
+
+
+   #isNodeUnknown(nodeCandidateList: string[]) {
+      for (let i = 0; i < nodeCandidateList.length; i++) {
+         const isNodeCandidateUnknown = !this.#nodeList.includes(nodeCandidateList[i]);
+         if (isNodeCandidateUnknown) {
             return true;
          }
       }
