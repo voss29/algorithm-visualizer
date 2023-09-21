@@ -5,7 +5,6 @@ import { MenuBar } from '../shared/MenuBar/MenuBar';
 import './app.css';
 
 
-
 function App(): ReactElement {
 
    const menuData: AlgorithmCategory[] = [
