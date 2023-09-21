@@ -1,5 +1,5 @@
 import { assert } from 'chai';
-import { GraphInterface } from '../../src/model/genericDataStructures/graph/graphTypes';
+import { GraphInterface } from '../../../../src/model/genericDataStructures/graph/graphTypes';
 import {
    parseMermaidGraph,
    parseNodeDefinitions,
@@ -7,7 +7,7 @@ import {
    parseNodeHighlighting,
    parseEdgeHighlighting,
    MermaidGraphParserConfig
-} from '../../src/view/shared/GraphVisualization/mermaidGraphParser';
+} from '../../../../src/view/shared/GraphVisualization/mermaidGraphParser';
 
 
 describe('mermaidGraphParser', () => {
