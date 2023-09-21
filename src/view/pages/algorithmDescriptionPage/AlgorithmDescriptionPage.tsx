@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import React, { ReactElement, useState, useEffect } from 'react';
 import { GraphGeneratorConfig } from '../../../model/dataGenerators/dataGeneratorTypes';
 import { generateRandomGraph } from '../../../model/dataGenerators/graphGenerator';
@@ -18,35 +17,14 @@ function AlgorithmDescriptionPage(): ReactElement {
 
 
    function generateNewGraph() {
-      // TEMPORARY LOGGING FOR DEMONSTRATION
-      console.log('======= Random Graph Generation =======');
-      console.log('Files for random graph generation:');
-      console.table({
-         internalGraphRepresentation: './src/model/genericDataStructures/Graph.ts',
-         randomGraphGenerator: './src/model/dataGenerators/graphGenerator.ts',
-         mermaidParser: './src/view/shared/GraphVisualization/mermaidGraphParser.ts'
-      });
-
       const graphConfig: GraphGeneratorConfig = {
          nodeAmount: { min: 5, max: 8 },
          edgesPerNode: { min: 1, max: 3 },
          edgeWeight: { min: 2, max: 10 },
          allowRecursiveEdges: true
       };
-      console.log(' ');
-      console.log(' ');
-
-      console.log('Configuration for graph generator:');
-      console.log(graphConfig);
-      console.log(' ');
-      console.log(' ');
 
       const generatedGraph = generateRandomGraph(graphConfig);
-
-      console.log('Randomly generated graph:');
-      console.log(generatedGraph);
-      console.log(' ');
-      console.log(' ');
 
       const parserConfig: MermaidGraphParserConfig = {
          graph: generatedGraph,
@@ -54,11 +32,6 @@ function AlgorithmDescriptionPage(): ReactElement {
          nodeHighlightList: ['A', 'C', 'E'],
          edgeHighlightList: [0, 1, 2],
       };
-
-      console.log('Configuration for mermaid parser:');
-      console.log(parserConfig);
-      console.log(' ');
-      console.log(' ');
 
       setMermaidParserConfig(parserConfig);
    }
