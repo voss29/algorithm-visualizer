@@ -55,12 +55,12 @@ function MenuBar(props: Props): ReactElement {
       for (let i = 0; i < menuCategoryList.length; i++) {
          const topCategory = menuCategoryList[i];
 
-         const matchList = topCategory.childList.filter((subCategory) => (
-            subCategory.name === selectedCategoryName
-         ));
+         const subCategory = topCategory.childList.find(
+            (subElement) => subElement.name === selectedCategoryName
+         );
 
-         if (matchList.length > 0) {
-            return matchList[0];
+         if (subCategory) {
+            return subCategory;
          }
       }
       return null;
