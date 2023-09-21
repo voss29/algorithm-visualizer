@@ -40,7 +40,7 @@ describe('mermaidGraphParser', () => {
    describe('mermaidGraphParser.parseNodeDefinitions', () => {
 
       it('parses nodes correctly', () => {
-         const result = parseNodeDefinitions(config);
+         const result = parseNodeDefinitions(config.graph);
          assert.equal(result, 'A((A))\nB((B))\nC((C))');
       });
 
@@ -50,7 +50,7 @@ describe('mermaidGraphParser', () => {
    describe('mermaidGraphParser.parseEdgeDefinitions', () => {
 
       it('parses edges correctly', () => {
-         const result = parseEdgeDefinitions(config);
+         const result = parseEdgeDefinitions(config.graph);
          assert.equal(result, 'A -- 5 --- B\nB -- 2 --> C\nC --> A');
       });
 
@@ -60,7 +60,7 @@ describe('mermaidGraphParser', () => {
    describe('mermaidGraphParser.parseEdgeDefinitions', () => {
 
       it('parses edges correctly', () => {
-         const result = parseEdgeDefinitions(config);
+         const result = parseEdgeDefinitions(config.graph);
          assert.equal(result, 'A -- 5 --- B\nB -- 2 --> C\nC --> A');
       });
 
@@ -70,13 +70,13 @@ describe('mermaidGraphParser', () => {
    describe('mermaidGraphParser.parseNodeHighlighting', () => {
 
       it('parses node highlighting correctly', () => {
-         const result = parseNodeHighlighting(config);
+         const result = parseNodeHighlighting(config.nodeHighlightList);
          assert.equal(result, 'classDef highlightedNode fill:black,stroke:black,stroke-width:2px,color:white\nclass A,C highlightedNode');
       });
 
       it('returns empty string for missing config property nodeHighlightList', () => {
          config.nodeHighlightList = undefined;
-         const result = parseNodeHighlighting(config);
+         const result = parseNodeHighlighting(config.nodeHighlightList);
          assert.equal(result, '');
       });
 
@@ -86,13 +86,13 @@ describe('mermaidGraphParser', () => {
    describe('mermaidGraphParser.parseEdgeHighlighting', () => {
 
       it('parses edge highlighting correctly', () => {
-         const result = parseEdgeHighlighting(config);
+         const result = parseEdgeHighlighting(config.edgeHighlightList);
          assert.equal(result, 'linkStyle 1,2 stroke:#094fe8,stroke-width:5px');
       });
 
       it('returns empty string for missing config property edgeHighlightList', () => {
          config.edgeHighlightList = undefined;
-         const result = parseEdgeHighlighting(config);
+         const result = parseEdgeHighlighting(config.edgeHighlightList);
          assert.equal(result, '');
       });
 
