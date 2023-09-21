@@ -6,6 +6,7 @@
   "scripts": {
     "clean": "rm -I ./docs/*",
     "test-mocha": "env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' mocha -r ts-node/register 'test/**/*.ts'",
+    "test-cypress": "npx cypress run --component",
     "build-dev": "rm -I ./docs/*; webpack --mode=development --devtool=eval-source-map",
     "build-prod": "rm -I ./docs/*; webpack --mode=production"
   },
