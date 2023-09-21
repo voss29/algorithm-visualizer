@@ -9,29 +9,12 @@ class Graph implements GraphInterface {
 
 
    constructor(nodeList: string[], edgeList: Edge[] = []) {
-      if (!nodeList) {
-         throw new Error('Parameter nodeList is missing');
-      }
+      this.#validateInputNodeList(nodeList);
+      this.#nodeList = cloneDeep(nodeList);
 
-      if (!Array.isArray(nodeList)) {
-         throw new Error('Parameter nodeList must be an array');
-      }
-
-      if (nodeList.length === 0) {
-         throw new Error('Parameter nodeList must contain at least one node');
-      }
-
-      this.#nodeList = this.#initializeNodeList(nodeList);
-
-      if (!Array.isArray(edgeList)) {
-         throw new Error('Parameter edgeList must be an array');
-      }
-
-      if (this.#isEdgeListContainingUnknownNodes(edgeList)) {
-         throw new Error('Parameter edgeList contains nodes that are not included in the nodeList');
-      }
-
-      this.#edgeList = this.#initializeEdgeList(edgeList);
+      this.#validateInputEdgeList(edgeList);
+      const indexedEdgeList = this.#indexEdgeList(edgeList);
+      this.#edgeList = cloneDeep(indexedEdgeList);
    }
 
 
@@ -90,19 +73,43 @@ class Graph implements GraphInterface {
    }
 
 
-   #initializeNodeList(nodeList: string[]) {
-      const listWithoutDuplicates = [...new Set(nodeList)];
-      return cloneDeep(listWithoutDuplicates);
+   #validateInputNodeList(nodeList: string[]) {
+      if (!nodeList) {
+         throw new Error('Parameter nodeList is missing');
+      }
+
+      if (!Array.isArray(nodeList)) {
+         throw new TypeError('Parameter nodeList must be an array');
+      }
+
+      if (nodeList.length === 0) {
+         throw new RangeError('Parameter nodeList must contain at least one node');
+      }
+
+      const containsDuplicateValues = new Set(nodeList).size !== nodeList.length;
+      if (containsDuplicateValues) {
+         throw new Error('Parameter nodeList contains duplicate values');
+      }
    }
 
 
-   #initializeEdgeList(edgeList: Edge[]) {
-      const indexedEdgeList = edgeList.map((element, index) => ({ id: index, ...element }));
-      return cloneDeep(indexedEdgeList);
+   #validateInputEdgeList(edgeList: Edge[]) {
+      if (!Array.isArray(edgeList)) {
+         throw new Error('Parameter edgeList must be an array');
+      }
+
+      if (this.#containsEdgeListUnknownNodes(edgeList)) {
+         throw new Error('Parameter edgeList contains nodes that are not included in the nodeList');
+      }
    }
 
 
-   #isEdgeListContainingUnknownNodes(edgeList: Edge[]) {
+   #indexEdgeList(edgeList: Edge[]) {
+      return edgeList.map((element, index) => ({ id: index, ...element }));
+   }
+
+
+   #containsEdgeListUnknownNodes(edgeList: Edge[]) {
       for (let i = 0; i < edgeList.length; i++) {
          const edge = edgeList[i];
          if (this.#isNodeUnknown([edge.startNode, edge.endNode])) {
