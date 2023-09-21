@@ -28,15 +28,23 @@ describe('Graph.constructor', () => {
       const nonArrayParameter = 'notAnArray' as unknown;
       expect(
          () => new Graph(nonArrayParameter as string[], edgeList)
-      ).to.throw(Error, 'Parameter nodeList must be an array');
+      ).to.throw(TypeError, 'Parameter nodeList must be an array');
    });
 
 
-   it('throws an error for empty nodeList', () => {
+   it('throws an error if parameter nodeList is empty', () => {
       const emptyNodeList: string[] = [];
       expect(
          () => new Graph(emptyNodeList, edgeList)
-      ).to.throw(Error, 'Parameter nodeList must contain at least one node');
+      ).to.throw(RangeError, 'Parameter nodeList must contain at least one node');
+   });
+
+
+   it('throws an error if parameter nodeList contains duplicates', () => {
+      const duplicateNodeList = ['A', 'B', 'C', 'B', 'D', 'A'];
+      expect(
+         () => new Graph(duplicateNodeList, edgeList)
+      ).to.throw(Error, 'Parameter nodeList contains duplicate values');
    });
 
 
@@ -61,14 +69,6 @@ describe('Graph.constructor', () => {
 
    it('instantiates graph object from valid nodeList and edgeList', () => {
       expect(() => new Graph(nodeList, edgeList)).not.to.throw(Error);
-   });
-
-
-   it('removes duplicates from node list during instantiation', () => {
-      const duplicateNodeList = ['A', 'B', 'C', 'B', 'D', 'A'];
-      const expectedNodeList = ['A', 'B', 'C', 'D'];
-      const graph = new Graph(duplicateNodeList, edgeList);
-      assert.deepEqual(graph.nodeList, expectedNodeList);
    });
 
 
