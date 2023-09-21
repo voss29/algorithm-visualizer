@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import React, { ReactElement, useEffect, useState } from 'react';
 import mermaid from 'mermaid';
 import { parseMermaidGraph, MermaidGraphParserConfig } from './mermaidGraphParser';
@@ -17,21 +16,10 @@ function GraphVisualization(props: Props): ReactElement {
 
    useEffect(() => {
       async function renderSVG() {
-         // TEMPORARY LOGGING FOR DEMONSTRATION
-
          const parsedGraphDefinition = parseMermaidGraph(parserConfig);
-
-         console.log('Parsed markdown diagram definition:');
-         console.log(parsedGraphDefinition);
-         console.log(' ');
-         console.log(' ');
-
          const { svg } = await mermaid.render('graph', parsedGraphDefinition);
-
-         console.log('Graph rendered by mermaid js');
          setGraphSVGString(svg);
       }
-
       renderSVG();
    }, []);
 
