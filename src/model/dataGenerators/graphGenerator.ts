@@ -135,7 +135,6 @@ function addRandomDirection(config: GraphGeneratorConfig, edgeList: Edge[]) {
 }
 
 
-
 function validateConfiguration(config: GraphGeneratorConfig) {
    const { nodeAmount, edgesPerNode, edgeWeight, allowRecursiveEdges } = config;
 
@@ -192,7 +191,6 @@ function validateConfiguration(config: GraphGeneratorConfig) {
          `edgeWeight.min ${edgeWeight.min} is greater than edgeWeight.max ${edgeWeight.max}`
       );
    }
-
 }
 
 
