@@ -25,31 +25,27 @@ const style = {
 
 
 function parseMermaidGraph(config: MermaidGraphParserConfig) {
-   const { direction } = config;
+   const { graph, direction, nodeHighlightList, edgeHighlightList } = config;
    const lineList: string[] = [];
 
    lineList.push(`%%{ init: ${JSON.stringify(style.theme)}}%%`);
    lineList.push(`flowchart ${direction}`);
-   lineList.push(parseNodeDefinitions(config));
-   lineList.push(parseEdgeDefinitions(config));
-   lineList.push(parseNodeHighlighting(config));
-   lineList.push(parseEdgeHighlighting(config));
+   lineList.push(parseNodeDefinitions(graph));
+   lineList.push(parseEdgeDefinitions(graph));
+   lineList.push(parseNodeHighlighting(nodeHighlightList));
+   lineList.push(parseEdgeHighlighting(edgeHighlightList));
 
    return `${lineList.join('\n')}\n`;
 }
 
 
-function parseNodeDefinitions(config: MermaidGraphParserConfig) {
-   const { graph } = config;
-
+function parseNodeDefinitions(graph: GraphInterface) {
    const nodeList = graph.nodeList.map((node) => `${node}((${node}))`);
    return nodeList.join('\n');
 }
 
 
-function parseEdgeDefinitions(config: MermaidGraphParserConfig) {
-   const { graph } = config;
-
+function parseEdgeDefinitions(graph: GraphInterface) {
    const edgeList = graph.edgeList.map((edge) => {
       const { startNode, endNode, isDirected, weight } = edge;
       const arrowCharacter = (isDirected) ? '>' : '-';
@@ -64,9 +60,7 @@ function parseEdgeDefinitions(config: MermaidGraphParserConfig) {
 }
 
 
-function parseNodeHighlighting(config: MermaidGraphParserConfig) {
-   const { nodeHighlightList } = config;
-
+function parseNodeHighlighting(nodeHighlightList?: string[]) {
    const lineList: string[] = [];
    const hasHighlightedNodes = nodeHighlightList && nodeHighlightList.length > 0;
 
@@ -79,9 +73,7 @@ function parseNodeHighlighting(config: MermaidGraphParserConfig) {
 }
 
 
-function parseEdgeHighlighting(config: MermaidGraphParserConfig) {
-   const { edgeHighlightList } = config;
-
+function parseEdgeHighlighting(edgeHighlightList?: number[]) {
    const hasHighlighedEdges = edgeHighlightList && edgeHighlightList.length > 0;
    return (hasHighlighedEdges) ? `linkStyle ${edgeHighlightList.join(',')} ${style.edgeHighlightStyle}` : '';
 }
