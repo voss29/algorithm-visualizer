@@ -20,6 +20,7 @@
       - [**Menu**](#menu-1)
       - [**Algorithm Description**](#algorithm-description-1)
       - [**Algorithm Execution**](#algorithm-execution-1)
+  - [**Algorithm Implementation**](#algorithm-implementation)
   - [**Random Graph Visualization**](#random-graph-visualization)
 
 <br>
@@ -249,6 +250,47 @@ stateDiagram-v2
 #### **Algorithm Execution**
 
 ![Image](./images/wireframes/desktop/algorithmExecution.png)
+
+<br>
+<br>
+<br>
+
+## **Algorithm Implementation**
+<br>
+
+```mermaid
+classDiagram
+  direction RL
+
+  class AlgorithmExecutor~Data, Highlight~ {
+    <<Abstract>>
+    - algorithmName: string
+    - algorithmDescription: string
+    - codeExample: string
+    - inputData
+    - outputData
+    - executionLog: AlgorithmStage[]
+    + executeAlgorithm()*
+  }
+  class AlgorithmStage~Data, Highlight~ {
+    - id: number
+    - name: string
+    - description: string
+    - stepList: AlgorithmStep[]
+    + addStep(step: AlgorithmStep)
+  }
+  class AlgorithmStep~Data, Highlight~ {
+    - id: number
+    - description: string
+    - currentData: Data
+    - highlightData: Highlight
+  }
+  class DijkstraAlgorithm { }
+
+  AlgorithmExecutor --> AlgorithmStage
+  AlgorithmStage --> "1..n" AlgorithmStep
+  DijkstraAlgorithm ..|> AlgorithmExecutor : implements
+```
 
 <br>
 <br>
