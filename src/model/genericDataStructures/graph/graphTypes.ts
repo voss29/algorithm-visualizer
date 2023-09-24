@@ -14,4 +14,10 @@ interface GraphInterface {
 }
 
 
-export { Edge, GraphInterface };
+type GraphHighlightData = {
+   nodeHighlightList: string[],
+   edgeHighlightList: number[]
+};
+
+
+export { Edge, GraphInterface, GraphHighlightData };
