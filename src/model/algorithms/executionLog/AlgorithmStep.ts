@@ -1,8 +1,4 @@
-import { GraphInterface, GraphHighlightData } from '../../genericDataStructures/graph/graphTypes';
-
-
-type AlgorithmData = GraphInterface;
-type HighlightData = GraphHighlightData;
+import { AlgorithmData, HighlightData } from '../algorithmTypes';
 
 
 class AlgorithmStep<Data extends AlgorithmData, Highlight extends HighlightData> {
