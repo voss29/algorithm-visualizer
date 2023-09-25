@@ -58,7 +58,12 @@ describe('AlgorithmStage', () => {
       assert.equal(stage.stepList.length, 0);
       stage.addStep(new AlgorithmStep(0, 'step description', currentData, hightlightData));
       assert.equal(stage.stepList.length, 1);
-      assert.equal(stage.stepList[0].description, 'step description');
+
+      const firstStep = stage.stepList[0];
+      assert.equal(firstStep.id, 0);
+      assert.equal(firstStep.description, 'step description');
+      assert.deepEqual(firstStep.data, currentData);
+      assert.deepEqual(firstStep.highlightData, hightlightData);
    });
 
 });
