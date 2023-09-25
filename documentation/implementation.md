@@ -270,7 +270,10 @@ classDiagram
     - inputData
     - outputData
     - executionLog: AlgorithmStage[]
-    + executeAlgorithm()*
+    + execute()*
+    + addStage(name: string, description: string)
+    + addStepToCurrentStage(description: string, data: Data, highlightData: Highlight)
+    + getExecutionLog() AlgorithmStage[]
   }
   class AlgorithmStage~Data, Highlight~ {
     - id: number
