@@ -1,4 +1,3 @@
-import { cloneDeep } from 'lodash';
 import { AlgorithmData, HighlightData } from '../algorithmTypes';
 import { AlgorithmStep } from './AlgorithmStep';
 
@@ -30,7 +29,11 @@ class AlgorithmStage<Data extends AlgorithmData, Highlight extends HighlightData
    }
 
    get stepList() {
-      return cloneDeep(this.#stepList);
+      const cloneList = this.#stepList.map((step) => {
+         const { id, description, data, highlightData } = step;
+         return new AlgorithmStep(id, description, data, highlightData);
+      });
+      return cloneList;
    }
 
    addStep(step: AlgorithmStep<Data, Highlight>) {
