@@ -116,7 +116,11 @@ describe('graphGenerator.generateRandomEdgeAmountMap()', () => {
 
    it('generates edge amount map according to config', () => {
       const config = generateValidConfiguration();
-      const result = generateRandomEdgeAmountList(config, ['A', 'B', 'C']);
+      const result = generateRandomEdgeAmountList(config, [
+         { id: 'A', labelText: 'A' },
+         { id: 'B', labelText: 'B' },
+         { id: 'C', labelText: 'C' }
+      ]);
       assert.equal(result.length, 3);
       assert.equal(result[0].node, 'A');
       assert.equal(result[1].node, 'B');

@@ -1,8 +1,13 @@
 import { assert, expect } from 'chai';
-import { Graph, Edge } from '../../../src/model/genericDataStructures/graph/Graph';
+import { Graph } from '../../../src/model/genericDataStructures/graph/Graph';
+import { Node, Edge } from '../../../src/model/genericDataStructures/graph/graphTypes';
 
 
-const nodeList = ['A', 'B', 'C'];
+const nodeList: Node[] = [
+   { id: 'A', labelText: 'A' },
+   { id: 'B', labelText: 'B' },
+   { id: 'C', labelText: 'C' }
+];
 
 const edgeList: Edge[] = [
    { startNode: 'A', endNode: 'B', weight: 2 },
@@ -19,7 +24,7 @@ describe('Graph.constructor', () => {
    it('throws an error for missing parameter nodeList', () => {
       const missingParameter = undefined as unknown;
       expect(
-         () => new Graph(missingParameter as string[], edgeList)
+         () => new Graph(missingParameter as Node[], edgeList)
       ).to.throw(Error, 'Parameter nodeList is missing');
    });
 
@@ -27,13 +32,13 @@ describe('Graph.constructor', () => {
    it('throws an error if parameter nodeList is not an array', () => {
       const nonArrayParameter = 'notAnArray' as unknown;
       expect(
-         () => new Graph(nonArrayParameter as string[], edgeList)
+         () => new Graph(nonArrayParameter as Node[], edgeList)
       ).to.throw(TypeError, 'Parameter nodeList must be an array');
    });
 
 
    it('throws an error if parameter nodeList is empty', () => {
-      const emptyNodeList: string[] = [];
+      const emptyNodeList: Node[] = [];
       expect(
          () => new Graph(emptyNodeList, edgeList)
       ).to.throw(RangeError, 'Parameter nodeList must contain at least one node');
@@ -41,7 +46,11 @@ describe('Graph.constructor', () => {
 
 
    it('throws an error if parameter nodeList contains duplicates', () => {
-      const duplicateNodeList = ['A', 'B', 'C', 'B', 'D', 'A'];
+      const duplicateNodeList: Node[] = [
+         { id: 'A', labelText: 'A' },
+         { id: 'B', labelText: 'B' },
+         { id: 'A', labelText: 'A' }
+      ];
       expect(
          () => new Graph(duplicateNodeList, edgeList)
       ).to.throw(Error, 'Parameter nodeList contains duplicate values');
@@ -73,10 +82,14 @@ describe('Graph.constructor', () => {
 
 
    it('initializes property nodeList with clone of parameter to ensure immutability', () => {
-      const mutableNodeList = ['A', 'B', 'C'];
+      const mutableNodeList: Node[] = [
+         { id: 'A', labelText: 'A' },
+         { id: 'B', labelText: 'B' },
+         { id: 'C', labelText: 'C' }
+      ];
       const graph = new Graph(mutableNodeList, edgeList);
       assert.deepEqual(graph.nodeList, mutableNodeList);
-      mutableNodeList.push('D');
+      mutableNodeList.push({ id: 'D', labelText: 'D' });
       assert.notDeepEqual(graph.nodeList, mutableNodeList);
    });
 
@@ -127,7 +140,7 @@ describe('Graph.nodeList', () => {
       const receivedNodeList = graph.nodeList;
       assert.notEqual(receivedNodeList, nodeList);
       assert.deepEqual(receivedNodeList, nodeList);
-      receivedNodeList.push('F');
+      receivedNodeList.push({ id: 'F', labelText: 'F' });
       assert.notDeepEqual(receivedNodeList, nodeList);
    });
 
@@ -188,7 +201,12 @@ describe('Graph.getNeighborNodeListFor()', () => {
 
 
    it('returns empty list for nodes with no neighbors', () => {
-      const newNodeList = ['A', 'B', 'C', 'D'];
+      const newNodeList: Node[] = [
+         { id: 'A', labelText: 'A' },
+         { id: 'B', labelText: 'B' },
+         { id: 'C', labelText: 'C' },
+         { id: 'D', labelText: 'D' },
+      ];
       const newGraph = new Graph(newNodeList, edgeList);
       const neighborList = newGraph.getNeighborNodeListFor('D');
       assert.deepEqual(neighborList, []);

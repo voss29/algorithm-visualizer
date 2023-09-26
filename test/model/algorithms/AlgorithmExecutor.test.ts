@@ -10,14 +10,18 @@ class Algorithm extends AlgorithmExecutor<AlgorithmData, HighlightData> {
       super(name, description, codeExample);
 
       this.setInputData({
-         nodeList: ['A', 'B'],
+         nodeList: [{ id: 'A', labelText: 'A' }, { id: 'B', labelText: 'B' }],
          edgeList: [{ id: 0, startNode: 'A', endNode: 'B' }],
          getNeighborNodeListFor: (node) => ['Test'],
          getListOfEdgesBetween: (node1, node2) => []
       });
 
       this.setOutputData({
-         nodeList: ['A', 'B', 'C'],
+         nodeList: [
+            { id: 'A', labelText: 'A' },
+            { id: 'B', labelText: 'B' },
+            { id: 'C', labelText: 'C' }
+         ],
          edgeList: [{ id: 0, startNode: 'A', endNode: 'B', isDirected: true, weight: 5 }],
          getNeighborNodeListFor: (node) => ['Test'],
          getListOfEdgesBetween: (node1, node2) => []
@@ -61,10 +65,17 @@ describe('AlgorithmExecutor', () => {
       assert.equal(algorithm.algorithmDescription, 'algorithm description');
       assert.equal(algorithm.codeExample, 'code');
 
-      assert.deepEqual(algorithm.inputData?.nodeList, ['A', 'B']);
+      assert.deepEqual(algorithm.inputData?.nodeList, [
+         { id: 'A', labelText: 'A' },
+         { id: 'B', labelText: 'B' }
+      ]);
       assert.deepEqual(algorithm.inputData?.edgeList, [{ id: 0, startNode: 'A', endNode: 'B' }]);
 
-      assert.deepEqual(algorithm.outputData?.nodeList, ['A', 'B', 'C']);
+      assert.deepEqual(algorithm.outputData?.nodeList, [
+         { id: 'A', labelText: 'A' },
+         { id: 'B', labelText: 'B' },
+         { id: 'C', labelText: 'C' }
+      ]);
       assert.deepEqual(algorithm.outputData?.edgeList, [{ id: 0, startNode: 'A', endNode: 'B', isDirected: true, weight: 5 }]);
 
       assert.deepEqual(algorithm.executionLog, []);
@@ -129,7 +140,10 @@ describe('AlgorithmExecutor', () => {
       const lastStep = algorithm.executionLog[0].stepList[0];
       assert.equal(lastStep.id, 0);
       assert.equal(lastStep.description, 'step description');
-      assert.deepEqual(lastStep.data.nodeList, ['A', 'B']);
+      assert.deepEqual(lastStep.data.nodeList, [
+         { id: 'A', labelText: 'A' },
+         { id: 'B', labelText: 'B' }
+      ]);
       assert.deepEqual(lastStep.data.edgeList, [{ id: 0, startNode: 'A', endNode: 'B' }]);
       assert.deepEqual(lastStep.highlightData, { nodeHighlightList: ['A', 'B'], edgeHighlightList: [1, 4, 5] });
    });
