@@ -1,3 +1,9 @@
+type Node = {
+   id: string,
+   labelText: string
+};
+
+
 type Edge = {
    startNode: string,
    endNode: string,
@@ -7,7 +13,7 @@ type Edge = {
 
 
 interface GraphInterface {
-   readonly nodeList: string[],
+   readonly nodeList: Node[],
    readonly edgeList: ({ id: number } & Edge)[],
    getNeighborNodeListFor: (node: string) => string[],
    getListOfEdgesBetween: (node1: string, node2: string) => ({ id: number } & Edge)[]
@@ -20,4 +26,4 @@ type GraphHighlightData = {
 };
 
 
-export { Edge, GraphInterface, GraphHighlightData };
+export { Node, Edge, GraphInterface, GraphHighlightData };
