@@ -40,7 +40,7 @@ function parseMermaidGraph(config: MermaidGraphParserConfig) {
 
 
 function parseNodeDefinitions(graph: GraphInterface) {
-   const nodeList = graph.nodeList.map((node) => `${node}((${node}))`);
+   const nodeList = graph.nodeList.map((node) => `${node.id}((${node.labelText}))`);
    return nodeList.join('\n');
 }
 

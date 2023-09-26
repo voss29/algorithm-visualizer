@@ -1,14 +1,14 @@
 import { cloneDeep } from 'lodash';
-import { Edge, GraphInterface } from './graphTypes';
+import { Node, Edge, GraphInterface } from './graphTypes';
 
 
 class Graph implements GraphInterface {
 
-   #nodeList: string[];
+   #nodeList: Node[];
    #edgeList: ({ id: number } & Edge)[];
 
 
-   constructor(nodeList: string[], edgeList: Edge[] = []) {
+   constructor(nodeList: Node[], edgeList: Edge[] = []) {
       this.#validateInputNodeList(nodeList);
       this.#nodeList = cloneDeep(nodeList);
 
@@ -28,16 +28,16 @@ class Graph implements GraphInterface {
    }
 
 
-   getNeighborNodeListFor(node: string) {
-      if (this.#isNodeUnknown([node])) {
-         throw new Error(`Node ${node} does not exist`);
+   getNeighborNodeListFor(nodeId: string) {
+      if (this.#isNodeUnknown([nodeId])) {
+         throw new Error(`Node ${nodeId} does not exist`);
       }
 
       const neighborNodeSet = new Set<string>();
 
       this.#edgeList.forEach((edge) => {
-         const isStartNode = node === edge.startNode;
-         const isEndNodeOfUndirectedEdge = !edge.isDirected && node === edge.endNode;
+         const isStartNode = nodeId === edge.startNode;
+         const isEndNodeOfUndirectedEdge = !edge.isDirected && nodeId === edge.endNode;
 
          if (isStartNode) {
             neighborNodeSet.add(edge.endNode);
@@ -52,19 +52,19 @@ class Graph implements GraphInterface {
    }
 
 
-   getListOfEdgesBetween(node1: string, node2: string) {
-      if (this.#isNodeUnknown([node1])) {
-         throw new Error(`Node ${node1} does not exist`);
+   getListOfEdgesBetween(nodeId1: string, nodeId2: string) {
+      if (this.#isNodeUnknown([nodeId1])) {
+         throw new Error(`Node ${nodeId1} does not exist`);
       }
 
-      if (this.#isNodeUnknown([node2])) {
-         throw new Error(`Node ${node2} does not exist`);
+      if (this.#isNodeUnknown([nodeId2])) {
+         throw new Error(`Node ${nodeId2} does not exist`);
       }
 
       const resultList = this.#edgeList.filter(
          (edge) => {
-            const isEdgeBetweenAB = edge.startNode === node1 && edge.endNode === node2;
-            const isEdgeBetweenBA = edge.startNode === node2 && edge.endNode === node1;
+            const isEdgeBetweenAB = edge.startNode === nodeId1 && edge.endNode === nodeId2;
+            const isEdgeBetweenBA = edge.startNode === nodeId2 && edge.endNode === nodeId1;
             return isEdgeBetweenAB || (!edge.isDirected && isEdgeBetweenBA);
          }
       );
@@ -73,7 +73,7 @@ class Graph implements GraphInterface {
    }
 
 
-   #validateInputNodeList(nodeList: string[]) {
+   #validateInputNodeList(nodeList: Node[]) {
       if (!nodeList) {
          throw new Error('Parameter nodeList is missing');
       }
@@ -86,10 +86,16 @@ class Graph implements GraphInterface {
          throw new RangeError('Parameter nodeList must contain at least one node');
       }
 
-      const containsDuplicateValues = new Set(nodeList).size !== nodeList.length;
-      if (containsDuplicateValues) {
+      if (this.#containsDuplicateNodeIds(nodeList)) {
          throw new Error('Parameter nodeList contains duplicate values');
       }
+   }
+
+
+   #containsDuplicateNodeIds(nodeList: Node[]) {
+      const nodeIdList = nodeList.map((node) => node.id);
+      const containsDuplicateValues = new Set(nodeIdList).size !== nodeList.length;
+      return containsDuplicateValues;
    }
 
 
@@ -121,9 +127,13 @@ class Graph implements GraphInterface {
    }
 
 
-   #isNodeUnknown(nodeCandidateList: string[]) {
-      for (let i = 0; i < nodeCandidateList.length; i++) {
-         const isNodeCandidateUnknown = !this.#nodeList.includes(nodeCandidateList[i]);
+   #isNodeUnknown(nodeCandidateIdList: string[]) {
+      for (let i = 0; i < nodeCandidateIdList.length; i++) {
+         const currentNodeCandidateId = nodeCandidateIdList[i];
+         const isNodeCandidateUnknown = !this.#nodeList.find(
+            (node) => node.id === currentNodeCandidateId
+         );
+         // const isNodeCandidateUnknown = !this.#nodeList.includes(nodeCandidateIdList[i]);
          if (isNodeCandidateUnknown) {
             return true;
          }

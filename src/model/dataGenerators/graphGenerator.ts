@@ -1,6 +1,6 @@
 /* eslint-disable no-constant-condition */
 import { GraphGeneratorConfig } from './dataGeneratorTypes';
-import { Edge, GraphInterface } from '../genericDataStructures/graph/graphTypes';
+import { Node, Edge, GraphInterface } from '../genericDataStructures/graph/graphTypes';
 import { Graph } from '../genericDataStructures/graph/Graph';
 
 
@@ -15,7 +15,8 @@ function generateRandomGraph(config: GraphGeneratorConfig): GraphInterface {
 function generateRandomNodeList(config: GraphGeneratorConfig) {
    const { nodeAmount } = config;
    const randomNodeAmount = getRandomIntegerBetweenInclusive(nodeAmount.min, nodeAmount.max);
-   return generateAlphabeticalCharacterList(randomNodeAmount);
+   const randomNodeIdList = generateAlphabeticalCharacterList(randomNodeAmount);
+   return randomNodeIdList.map((id) => ({ id, labelText: id }));
 }
 
 
@@ -32,7 +33,7 @@ function generateAlphabeticalCharacterList(characterAmount: number) {
 }
 
 
-function generateRandomEdgeList(config: GraphGeneratorConfig, nodeList: string[]) {
+function generateRandomEdgeList(config: GraphGeneratorConfig, nodeList: Node[]) {
    const randomEdgeAmountList = generateRandomEdgeAmountList(config, nodeList);
    let randomEdgeList = generateRandomEdgePairList(config, randomEdgeAmountList);
    randomEdgeList = addRandomWeight(config, randomEdgeList);
@@ -44,14 +45,14 @@ function generateRandomEdgeList(config: GraphGeneratorConfig, nodeList: string[]
 type EdgeAmountMap = { node: string, edgeAmount: number }[];
 
 
-function generateRandomEdgeAmountList(config: GraphGeneratorConfig, nodeList: string[]) {
+function generateRandomEdgeAmountList(config: GraphGeneratorConfig, nodeList: Node[]) {
    const { edgesPerNode } = config;
    const randomEdgeAmountList: EdgeAmountMap = [];
    let edgeTotal = 0;
 
    nodeList.forEach((node) => {
       const edgeAmount = getRandomIntegerBetweenInclusive(edgesPerNode.min, edgesPerNode.max);
-      randomEdgeAmountList.push({ node, edgeAmount });
+      randomEdgeAmountList.push({ node: node.id, edgeAmount });
       edgeTotal += edgeAmount;
    });
 
