@@ -72,6 +72,17 @@ describe('graphGenerator.validateConfiguration()', () => {
       }
    });
 
+   it('throws error if graph with forbidden recursive edges may be forced to contain recursive edges', () => {
+      config.allowRecursiveEdges = false;
+      expect(() => validateConfiguration(config)).to.throw(
+         RangeError,
+         `Configuration specifies that recursive edges are forbidden but graph may be forced to 
+         generate recursive edges due to edgesPerNode.max = ${config.edgesPerNode.max} exceeding the lowest
+         possible edge total of all other nodes (nodeAmount.min - 1) * edgesPerNode.min = 
+         ${(config.nodeAmount.min - 1) * config.edgesPerNode.min}`
+      );
+   });
+
 
    it('accepts valid config with all optional properties', () => {
       expect(() => validateConfiguration(config)).not.to.throw(Error);

@@ -192,6 +192,16 @@ function validateConfiguration(config: GraphGeneratorConfig) {
          `edgeWeight.min ${edgeWeight.min} is greater than edgeWeight.max ${edgeWeight.max}`
       );
    }
+
+   const mayRecursiveEdgesBeNecessary = edgesPerNode.max >= (nodeAmount.min - 1) * edgesPerNode.min;
+   if (!allowRecursiveEdges && mayRecursiveEdgesBeNecessary) {
+      throw new RangeError(
+         `Configuration specifies that recursive edges are forbidden but graph may be forced to 
+         generate recursive edges due to edgesPerNode.max = ${edgesPerNode.max} exceeding the lowest
+         possible edge total of all other nodes (nodeAmount.min - 1) * edgesPerNode.min = 
+         ${(nodeAmount.min - 1) * edgesPerNode.min}`
+      );
+   }
 }
 
 
