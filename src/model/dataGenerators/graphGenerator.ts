@@ -66,7 +66,7 @@ function generateRandomEdgeAmountList(config: GraphGeneratorConfig, nodeList: No
 }
 
 
-function generateRandomEdgePairList(config: GraphGeneratorConfig, edgeAmountMap: EdgeAmountMap) {
+function generateRandomEdgePairList(config: GraphGeneratorConfig, edgeAmountMap : EdgeAmountMap) {
    const { allowRecursiveEdges } = config;
 
    const nodePairList: Edge[] = [];
@@ -74,27 +74,39 @@ function generateRandomEdgePairList(config: GraphGeneratorConfig, edgeAmountMap:
    while (true) {
       // sort in descending order
       edgeAmountMap.sort((element1, element2) => element2.edgeAmount - element1.edgeAmount);
+
       const currentNode = edgeAmountMap[0];
 
-      while (currentNode.edgeAmount > 0) {
-         const availablePairList = edgeAmountMap.filter((node) => node.edgeAmount > 0);
+      let availablePairList = edgeAmountMap.filter((node) => {
+         const isCurrentNodeSelectable = allowRecursiveEdges && currentNode.edgeAmount > 1;
+         const isNotCurrentNode = node.node !== currentNode.node;
+         const hasFreeEdges = node.edgeAmount > 0;
+         return (isCurrentNodeSelectable || isNotCurrentNode) && hasFreeEdges;
+      });
 
-         const canNodePairWithItself = allowRecursiveEdges && currentNode.edgeAmount > 1;
-         const selectionStart = (canNodePairWithItself) ? 0 : 1;
-         const selectionEnd = availablePairList.length - 1;
-         const pairIndex = getRandomIntegerBetweenInclusive(selectionStart, selectionEnd);
-         const selectedPairNode = availablePairList[pairIndex];
-
-         currentNode.edgeAmount--;
-         selectedPairNode.edgeAmount--;
-
-         nodePairList.push({ startNode: currentNode.node, endNode: selectedPairNode.node });
-      }
-
-      const isTerminated = edgeAmountMap.filter((node) => node.edgeAmount > 0).length === 0;
-      if (isTerminated) {
+      if (availablePairList.length === 0) {
          break;
       }
+
+      let maximumIndex = 0;
+      if (availablePairList.length > 1) {
+         const isRecursive = allowRecursiveEdges && getRandomIntegerBetweenInclusive(0, 4) === 0;
+         maximumIndex = (isRecursive) ? 0 : 1;
+      }
+
+      const freeEdgeMaximum = availablePairList[maximumIndex].edgeAmount;
+
+      availablePairList = availablePairList.filter(
+         (node) => node.edgeAmount === freeEdgeMaximum
+      );
+
+      const pairIndex = getRandomIntegerBetweenInclusive(0, availablePairList.length - 1);
+      const selectedPairNode = availablePairList[pairIndex];
+
+      currentNode.edgeAmount--;
+      selectedPairNode.edgeAmount--;
+
+      nodePairList.push({ startNode: currentNode.node, endNode: selectedPairNode.node });
    }
 
    return nodePairList;
