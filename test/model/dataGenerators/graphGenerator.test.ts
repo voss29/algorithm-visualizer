@@ -154,6 +154,34 @@ describe('graphGenerator.generateRandomEdgeAmountMap()', () => {
 
 describe('graphGenerator.generateRandomEdgePairList()', () => {
 
+   it('generates random node pair list according to config with connected graph', () => {
+      const config = generateValidConfiguration();
+      config.allowUnconnectedGraph = true;
+
+      const edgeAmountList = [
+         { node: 'A', edgeAmount: 3 },
+         { node: 'B', edgeAmount: 3 },
+         { node: 'C', edgeAmount: 4 },
+         { node: 'D', edgeAmount: 2 },
+         { node: 'E', edgeAmount: 4 }
+      ];
+
+      const nodePairList = generateRandomEdgePairList(config, edgeAmountList);
+      const connectedNodeList = new Set<string>();
+
+      nodePairList.forEach((node) => {
+         connectedNodeList.add(node.startNode);
+         connectedNodeList.add(node.endNode);
+      });
+
+      assert.equal(connectedNodeList.has('A'), true);
+      assert.equal(connectedNodeList.has('B'), true);
+      assert.equal(connectedNodeList.has('C'), true);
+      assert.equal(connectedNodeList.has('D'), true);
+      assert.equal(connectedNodeList.has('E'), true);
+   });
+
+
    it('generates random node pair list according to config with recursive edges', () => {
       const config = generateValidConfiguration();
       const edgeAmountList = [
@@ -220,6 +248,35 @@ describe('graphGenerator.generateRandomEdgePairList()', () => {
          assert.notEqual(pair.startNode, pair.endNode);
       });
 
+   });
+
+
+   it('generates random node pair list according to config without forcing connected graph', () => {
+      const config = generateValidConfiguration();
+      config.allowUnconnectedGraph = false;
+
+      const edgeAmountList = [
+         { node: 'A', edgeAmount: 3 },
+         { node: 'B', edgeAmount: 3 },
+         { node: 'C', edgeAmount: 4 }
+      ];
+
+      const nodePairList = generateRandomEdgePairList(config, edgeAmountList);
+      assert.equal(nodePairList.length, 5);
+
+      const resultEdgeAmountMap = new Map();
+      resultEdgeAmountMap.set('A', 0);
+      resultEdgeAmountMap.set('B', 0);
+      resultEdgeAmountMap.set('C', 0);
+
+      nodePairList.forEach((pair) => {
+         resultEdgeAmountMap.set(pair.startNode, resultEdgeAmountMap.get(pair.startNode) + 1);
+         resultEdgeAmountMap.set(pair.endNode, resultEdgeAmountMap.get(pair.endNode) + 1);
+      });
+
+      assert.equal(resultEdgeAmountMap.get('A'), 3);
+      assert.equal(resultEdgeAmountMap.get('B'), 3);
+      assert.equal(resultEdgeAmountMap.get('C'), 4);
    });
 
 });
