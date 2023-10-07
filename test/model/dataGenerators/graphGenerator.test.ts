@@ -72,6 +72,7 @@ describe('graphGenerator.validateConfiguration()', () => {
       }
    });
 
+
    it('throws error if graph with forbidden recursive edges may be forced to contain recursive edges', () => {
       config.allowRecursiveEdges = false;
       expect(() => validateConfiguration(config)).to.throw(
