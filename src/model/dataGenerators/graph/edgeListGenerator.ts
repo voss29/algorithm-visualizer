@@ -39,16 +39,10 @@ function generateRandomEdgeAmountList(config: GraphGeneratorConfig, nodeList: No
 function generateRandomEdgePairList(config: GraphGeneratorConfig, edgeAmountMap : EdgeAmountMap) {
    const { allowRecursiveEdges, allowUnconnectedGraph } = config;
 
-   const nodePairList: Edge[] = [];
+   let nodePairList: Edge[] = [];
 
    if (!allowUnconnectedGraph) {
-      for (let i = 0; i < edgeAmountMap.length - 1; i++) {
-         const startNode = edgeAmountMap[i];
-         const endNode = edgeAmountMap[i + 1];
-         startNode.edgeAmount--;
-         endNode.edgeAmount--;
-         nodePairList.push({ startNode: startNode.node, endNode: endNode.node });
-      }
+      nodePairList = generateMinimalConnectedEdgeList(edgeAmountMap);
    }
 
    while (true) {
@@ -93,6 +87,21 @@ function generateRandomEdgePairList(config: GraphGeneratorConfig, edgeAmountMap 
 }
 
 
+function generateMinimalConnectedEdgeList(edgeAmountMap : EdgeAmountMap) {
+   const edgeList: Edge[] = [];
+
+   for (let i = 0; i < edgeAmountMap.length - 1; i++) {
+      const startNode = edgeAmountMap[i];
+      const endNode = edgeAmountMap[i + 1];
+      startNode.edgeAmount--;
+      endNode.edgeAmount--;
+      edgeList.push({ startNode: startNode.node, endNode: endNode.node });
+   }
+
+   return edgeList;
+}
+
+
 function addRandomWeight(config: GraphGeneratorConfig, edgeList: Edge[]) {
    const { edgeWeight } = config;
 
@@ -132,6 +141,7 @@ export {
    generateRandomEdgeList,
    generateRandomEdgeAmountList,
    generateRandomEdgePairList,
+   generateMinimalConnectedEdgeList,
    addRandomWeight,
    addRandomDirection
 };

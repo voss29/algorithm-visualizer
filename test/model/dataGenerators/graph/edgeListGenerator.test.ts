@@ -3,6 +3,7 @@ import { GraphGeneratorConfig } from '../../../../src/model/dataGenerators/graph
 import {
    generateRandomEdgeAmountList,
    generateRandomEdgePairList,
+   generateMinimalConnectedEdgeList,
    addRandomWeight,
    addRandomDirection
 } from '../../../../src/model/dataGenerators/graph/edgeListGenerator';
@@ -172,6 +173,34 @@ describe('generateRandomEdgePairList()', () => {
       assert.equal(resultEdgeAmountMap.get('A'), 3);
       assert.equal(resultEdgeAmountMap.get('B'), 3);
       assert.equal(resultEdgeAmountMap.get('C'), 4);
+   });
+
+});
+
+
+
+describe('generateMinimalConnectedEdgeList()', () => {
+
+   it('generates an minimal edge list for a connected graph', () => {
+      const edgeAmountList = [
+         { node: 'A', edgeAmount: 3 },
+         { node: 'B', edgeAmount: 3 },
+         { node: 'C', edgeAmount: 4 },
+         { node: 'D', edgeAmount: 2 },
+      ];
+
+      const edgeList = generateMinimalConnectedEdgeList(edgeAmountList);
+      const connectedNodeList = new Set<string>();
+
+      edgeList.forEach((edge) => {
+         connectedNodeList.add(edge.startNode);
+         connectedNodeList.add(edge.endNode);
+      });
+
+      assert.equal(connectedNodeList.has('A'), true);
+      assert.equal(connectedNodeList.has('B'), true);
+      assert.equal(connectedNodeList.has('C'), true);
+      assert.equal(connectedNodeList.has('D'), true);
    });
 
 });
