@@ -85,6 +85,17 @@ describe('graphGenerator.validateConfiguration()', () => {
    });
 
 
+   it('throws error if graph is forced to be connected but has an edge minimum per node ', () => {
+      config.allowUnconnectedGraph = false;
+      config.edgesPerNode.min = 1;
+      expect(() => validateConfiguration(config)).to.throw(
+         RangeError,
+         `Configuration forbids the generation of unconnected graph. Therefore the minimum
+         of edges per node must be greater than 1.`
+      );
+   });
+
+
    it('accepts valid config with all optional properties', () => {
       expect(() => validateConfiguration(config)).not.to.throw(Error);
    });
