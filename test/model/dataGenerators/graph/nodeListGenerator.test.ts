@@ -1,5 +1,5 @@
 import { assert } from 'chai';
-import { generateAlphabeticalCharacterList } from '../../../src/model/dataGenerators/graph/nodeListGenerator';
+import { generateAlphabeticalCharacterList } from '../../../../src/model/dataGenerators/graph/nodeListGenerator';
 
 
 describe('generateAlphabeticalCharacterList()', () => {

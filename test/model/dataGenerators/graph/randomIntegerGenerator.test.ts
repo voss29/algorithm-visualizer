@@ -1,5 +1,5 @@
 import { assert } from 'chai';
-import { getRandomIntegerBetweenInclusive } from '../../../src/model/dataGenerators/graph/randomIntegerGenerator';
+import { getRandomIntegerBetweenInclusive } from '../../../../src/model/dataGenerators/graph/randomIntegerGenerator';
 
 
 describe('getRandomIntegerBetweenInclusive()', () => {

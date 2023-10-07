@@ -1,6 +1,6 @@
 import { expect } from 'chai';
-import { GraphGeneratorConfig } from '../../../src/model/dataGenerators/graph/dataGeneratorTypes';
-import { validateConfiguration } from '../../../src/model/dataGenerators/graph/graphGenerator';
+import { GraphGeneratorConfig } from '../../../../src/model/dataGenerators/graph/dataGeneratorTypes';
+import { validateConfiguration } from '../../../../src/model/dataGenerators/graph/graphGenerator';
 
 
 function generateValidConfiguration(): GraphGeneratorConfig {

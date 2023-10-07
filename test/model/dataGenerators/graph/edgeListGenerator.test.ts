@@ -1,11 +1,11 @@
 import { assert } from 'chai';
-import { GraphGeneratorConfig } from '../../../src/model/dataGenerators/graph/dataGeneratorTypes';
+import { GraphGeneratorConfig } from '../../../../src/model/dataGenerators/graph/dataGeneratorTypes';
 import {
    generateRandomEdgeAmountList,
    generateRandomEdgePairList,
    addRandomWeight,
    addRandomDirection
-} from '../../../src/model/dataGenerators/graph/edgeListGenerator';
+} from '../../../../src/model/dataGenerators/graph/edgeListGenerator';
 
 
 
