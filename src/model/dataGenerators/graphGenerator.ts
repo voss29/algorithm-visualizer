@@ -67,9 +67,19 @@ function generateRandomEdgeAmountList(config: GraphGeneratorConfig, nodeList: No
 
 
 function generateRandomEdgePairList(config: GraphGeneratorConfig, edgeAmountMap : EdgeAmountMap) {
-   const { allowRecursiveEdges } = config;
+   const { allowRecursiveEdges, allowUnconnectedGraph } = config;
 
    const nodePairList: Edge[] = [];
+
+   if (!allowUnconnectedGraph) {
+      for (let i = 0; i < edgeAmountMap.length - 1; i++) {
+         const startNode = edgeAmountMap[i];
+         const endNode = edgeAmountMap[i + 1];
+         startNode.edgeAmount--;
+         endNode.edgeAmount--;
+         nodePairList.push({ startNode: startNode.node, endNode: endNode.node });
+      }
+   }
 
    while (true) {
       // sort in descending order
@@ -149,7 +159,13 @@ function addRandomDirection(config: GraphGeneratorConfig, edgeList: Edge[]) {
 
 
 function validateConfiguration(config: GraphGeneratorConfig) {
-   const { nodeAmount, edgesPerNode, edgeWeight, allowRecursiveEdges } = config;
+   const {
+      nodeAmount,
+      edgesPerNode,
+      edgeWeight,
+      allowRecursiveEdges,
+      allowUnconnectedGraph
+   } = config;
 
    if (!Number.isInteger(nodeAmount.min)) {
       throw new TypeError('Argument nodeAmount.min must be an integer');
@@ -212,6 +228,13 @@ function validateConfiguration(config: GraphGeneratorConfig) {
          generate recursive edges due to edgesPerNode.max = ${edgesPerNode.max} exceeding the lowest
          possible edge total of all other nodes (nodeAmount.min - 1) * edgesPerNode.min = 
          ${(nodeAmount.min - 1) * edgesPerNode.min}`
+      );
+   }
+
+   if (!allowUnconnectedGraph && edgesPerNode.min < 2) {
+      throw new RangeError(
+         `Configuration forbids the generation of unconnected graph. Therefore the minimum
+         of edges per node must be greater than 1.`
       );
    }
 }
