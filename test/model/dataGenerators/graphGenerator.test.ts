@@ -14,7 +14,7 @@ import {
 function generateValidConfiguration(): GraphGeneratorConfig {
    return {
       nodeAmount: { min: 2, max: 7 },
-      edgesPerNode: { min: 1, max: 4 },
+      edgesPerNode: { min: 2, max: 4 },
       edgeWeight: { min: 1, max: 10 },
       allowRecursiveEdges: true
    };
@@ -157,11 +157,11 @@ describe('graphGenerator.generateRandomEdgePairList()', () => {
       const config = generateValidConfiguration();
       const edgeAmountList = [
          { node: 'A', edgeAmount: 3 },
-         { node: 'B', edgeAmount: 1 },
+         { node: 'B', edgeAmount: 3 },
          { node: 'C', edgeAmount: 4 }
       ];
       let nodePairList = generateRandomEdgePairList(config, edgeAmountList);
-      assert.equal(nodePairList.length, 4);
+      assert.equal(nodePairList.length, 5);
 
       const resultEdgeAmountMap = new Map();
       resultEdgeAmountMap.set('A', 0);
@@ -174,7 +174,7 @@ describe('graphGenerator.generateRandomEdgePairList()', () => {
       });
 
       assert.equal(resultEdgeAmountMap.get('A'), 3);
-      assert.equal(resultEdgeAmountMap.get('B'), 1);
+      assert.equal(resultEdgeAmountMap.get('B'), 3);
       assert.equal(resultEdgeAmountMap.get('C'), 4);
 
       const edgeAmountListWithForcedRecursivePair = [
@@ -195,11 +195,11 @@ describe('graphGenerator.generateRandomEdgePairList()', () => {
       config.allowRecursiveEdges = false;
       const edgeAmountList = [
          { node: 'A', edgeAmount: 3 },
-         { node: 'B', edgeAmount: 1 },
+         { node: 'B', edgeAmount: 3 },
          { node: 'C', edgeAmount: 4 }
       ];
       const nodePairList = generateRandomEdgePairList(config, edgeAmountList);
-      assert.equal(nodePairList.length, 4);
+      assert.equal(nodePairList.length, 5);
 
       const resultEdgeAmountMap = new Map();
       resultEdgeAmountMap.set('A', 0);
@@ -212,7 +212,7 @@ describe('graphGenerator.generateRandomEdgePairList()', () => {
       });
 
       assert.equal(resultEdgeAmountMap.get('A'), 3);
-      assert.equal(resultEdgeAmountMap.get('B'), 1);
+      assert.equal(resultEdgeAmountMap.get('B'), 3);
       assert.equal(resultEdgeAmountMap.get('C'), 4);
 
       nodePairList.forEach((pair) => {
