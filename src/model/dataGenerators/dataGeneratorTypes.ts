@@ -3,7 +3,8 @@ type GraphGeneratorConfig = {
    edgesPerNode: { min: number, max: number }
    edgeWeight?: { min: number, max: number },
    allowRecursiveEdges?: boolean,
-   isDirected?: 'yes' | 'mixed'
+   isDirected?: 'yes' | 'mixed',
+   allowUnconnectedGraph?: boolean
 };
 
 
