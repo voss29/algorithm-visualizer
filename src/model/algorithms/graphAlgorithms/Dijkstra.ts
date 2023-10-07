@@ -1,7 +1,7 @@
 import { AlgorithmExecutor } from '../AlgorithmExecutor';
 import { GraphInterface, GraphHighlightData } from '../../genericDataStructures/graph/graphTypes';
-import { GraphGeneratorConfig } from '../../dataGenerators/dataGeneratorTypes';
-import { generateRandomGraph } from '../../dataGenerators/graphGenerator';
+import { GraphGeneratorConfig } from '../../dataGenerators/graph/dataGeneratorTypes';
+import { generateRandomGraph } from '../../dataGenerators/graph/graphGenerator';
 
 
 class Dijkstra extends AlgorithmExecutor<GraphInterface, GraphHighlightData> {
