@@ -4,6 +4,7 @@ import {
    generateRandomEdgeAmountList,
    generateRandomEdgePairList,
    generateMinimalConnectedEdgeList,
+   generateAvailableNodeList,
    addRandomWeight,
    addRandomDirection
 } from '../../../../src/model/dataGenerators/graph/edgeListGenerator';
@@ -201,6 +202,43 @@ describe('generateMinimalConnectedEdgeList()', () => {
       assert.equal(connectedNodeList.has('B'), true);
       assert.equal(connectedNodeList.has('C'), true);
       assert.equal(connectedNodeList.has('D'), true);
+   });
+
+});
+
+
+
+describe('generateAvailableNodeList()', () => {
+
+   it('generates correct node list without first element', () => {
+      const edgeAmountList = [
+         { node: 'A', edgeAmount: 3 },
+         { node: 'B', edgeAmount: 0 },
+         { node: 'C', edgeAmount: 4 },
+         { node: 'D', edgeAmount: 2 },
+      ];
+
+      const availableNodeList = generateAvailableNodeList(edgeAmountList, false);
+      const expectedResult = [{ node: 'C', edgeAmount: 4 }, { node: 'D', edgeAmount: 2 }];
+      assert.deepEqual(availableNodeList, expectedResult);
+   });
+
+
+   it('generates correct node list with first element', () => {
+      const edgeAmountList = [
+         { node: 'A', edgeAmount: 3 },
+         { node: 'B', edgeAmount: 0 },
+         { node: 'C', edgeAmount: 4 },
+         { node: 'D', edgeAmount: 2 },
+      ];
+
+      const availableNodeList = generateAvailableNodeList(edgeAmountList, true);
+      const expectedResult = [
+         { node: 'A', edgeAmount: 3 },
+         { node: 'C', edgeAmount: 4 },
+         { node: 'D', edgeAmount: 2 }
+      ];
+      assert.deepEqual(availableNodeList, expectedResult);
    });
 
 });
