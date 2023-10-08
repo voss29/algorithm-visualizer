@@ -12,12 +12,12 @@ function generateRandomEdgeList(config: GraphGeneratorConfig, nodeList: Node[]) 
 }
 
 
-type EdgeAmountMap = { node: string, edgeAmount: number }[];
+type EdgeAmount = { node: string, edgeAmount: number };
 
 
 function generateRandomEdgeAmountList(config: GraphGeneratorConfig, nodeList: Node[]) {
    const { edgesPerNode } = config;
-   const randomEdgeAmountList: EdgeAmountMap = [];
+   const randomEdgeAmountList: EdgeAmount[] = [];
    let edgeTotal = 0;
 
    nodeList.forEach((node) => {
@@ -36,8 +36,8 @@ function generateRandomEdgeAmountList(config: GraphGeneratorConfig, nodeList: No
 }
 
 
-function generateRandomEdgePairList(config: GraphGeneratorConfig, edgeAmountMap : EdgeAmountMap) {
-   const { allowRecursiveEdges, allowUnconnectedGraph } = config;
+function generateRandomEdgePairList(config: GraphGeneratorConfig, edgeAmountMap: EdgeAmount[]) {
+   const { allowRecursiveEdges = false, allowUnconnectedGraph } = config;
 
    let nodePairList: Edge[] = [];
 
@@ -50,13 +50,7 @@ function generateRandomEdgePairList(config: GraphGeneratorConfig, edgeAmountMap 
       edgeAmountMap.sort((element1, element2) => element2.edgeAmount - element1.edgeAmount);
 
       const currentNode = edgeAmountMap[0];
-
-      let availablePairList = edgeAmountMap.filter((node) => {
-         const isCurrentNodeSelectable = allowRecursiveEdges && currentNode.edgeAmount > 1;
-         const isNotCurrentNode = node.node !== currentNode.node;
-         const hasFreeEdges = node.edgeAmount > 0;
-         return (isCurrentNodeSelectable || isNotCurrentNode) && hasFreeEdges;
-      });
+      let availablePairList = generateAvailableNodeList(edgeAmountMap, allowRecursiveEdges);
 
       if (availablePairList.length === 0) {
          break;
@@ -87,7 +81,7 @@ function generateRandomEdgePairList(config: GraphGeneratorConfig, edgeAmountMap 
 }
 
 
-function generateMinimalConnectedEdgeList(edgeAmountMap : EdgeAmountMap) {
+function generateMinimalConnectedEdgeList(edgeAmountMap: EdgeAmount[]) {
    const edgeList: Edge[] = [];
 
    for (let i = 0; i < edgeAmountMap.length - 1; i++) {
@@ -99,6 +93,20 @@ function generateMinimalConnectedEdgeList(edgeAmountMap : EdgeAmountMap) {
    }
 
    return edgeList;
+}
+
+
+function generateAvailableNodeList(edgeAmountMap: EdgeAmount[], allowRecursiveEdges: boolean) {
+   const currentNode = edgeAmountMap[0];
+
+   const availablePairList = edgeAmountMap.filter((node) => {
+      const isCurrentNodeSelectable = allowRecursiveEdges && currentNode.edgeAmount > 1;
+      const isNotCurrentNode = node.node !== currentNode.node;
+      const hasFreeEdges = node.edgeAmount > 0;
+      return (isCurrentNodeSelectable || isNotCurrentNode) && hasFreeEdges;
+   });
+
+   return availablePairList;
 }
 
 
@@ -141,6 +149,7 @@ export {
    generateRandomEdgeList,
    generateRandomEdgeAmountList,
    generateRandomEdgePairList,
+   generateAvailableNodeList,
    generateMinimalConnectedEdgeList,
    addRandomWeight,
    addRandomDirection
