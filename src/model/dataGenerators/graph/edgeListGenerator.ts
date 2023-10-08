@@ -1,3 +1,4 @@
+/* eslint-disable no-constant-condition */
 import { GraphGeneratorConfig } from './dataGeneratorTypes';
 import { getRandomIntegerBetweenInclusive } from './randomIntegerGenerator';
 import { Edge, Node } from '../../genericDataStructures/graph/graphTypes';
