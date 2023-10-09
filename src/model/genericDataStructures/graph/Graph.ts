@@ -2,13 +2,16 @@ import { cloneDeep } from 'lodash';
 import { Node, Edge, GraphInterface } from './graphTypes';
 
 
+type EdgeList = ({ id: number } & Edge)[];
+
+
 class Graph implements GraphInterface {
 
    #nodeList: Node[];
-   #edgeList: ({ id: number } & Edge)[];
+   #edgeList: EdgeList;
 
 
-   constructor(nodeList: Node[], edgeList: Edge[] = []) {
+   constructor(nodeList: Node[], edgeList: Edge[] | EdgeList = []) {
       this.#validateInputNodeList(nodeList);
       this.#nodeList = cloneDeep(nodeList);
 
@@ -110,7 +113,7 @@ class Graph implements GraphInterface {
    }
 
 
-   #indexEdgeList(edgeList: Edge[]) {
+   #indexEdgeList(edgeList: Edge[] | EdgeList): EdgeList {
       return edgeList.map((element, index) => ({ id: index, ...element }));
    }
 
