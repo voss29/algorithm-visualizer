@@ -70,7 +70,7 @@ abstract class AlgorithmExecutor<Data extends AlgorithmData, Highlight extends H
    }
 
 
-   abstract execute(): void;
+   abstract execute(input?: any): void;
 
 
    protected addStage(name: string, description: string) {
