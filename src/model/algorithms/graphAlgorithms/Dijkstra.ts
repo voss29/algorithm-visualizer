@@ -1,3 +1,4 @@
+/* eslint-disable no-continue */
 /* eslint-disable no-restricted-syntax */
 import { AlgorithmExecutor } from '../AlgorithmExecutor';
 import { GraphInterface, GraphHighlightData } from '../../genericDataStructures/graph/graphTypes';
@@ -30,6 +31,7 @@ class Dijkstra extends AlgorithmExecutor<GraphInterface, GraphHighlightData> {
 
    execute(startNodeId: string) {
       this.#executeInitialization(startNodeId);
+      this.#executeAlgorithm();
    }
 
 
@@ -94,66 +96,80 @@ class Dijkstra extends AlgorithmExecutor<GraphInterface, GraphHighlightData> {
       const visitedNodeIdList : string[] = [];
 
       while (true) {
-         const unvisitedNodeIdList = this.#routingTable.filter(
-            (node) => !visitedNodeIdList.includes(node.nodeId)
-         );
+         const unvisitedNodeIdList = this.#routingTable
+            .filter((node) => !visitedNodeIdList.includes(node.nodeId))
+            .sort((node1, node2) => node1.pathCost - node2.pathCost);
 
          if (unvisitedNodeIdList.length === 0) {
             break;
          }
 
-         unvisitedNodeIdList.sort((node1, node2) => node1.pathCost - node2.pathCost);
          const currentNode = unvisitedNodeIdList[0];
 
          super.addStepToCurrentStage(
-            `Unvisited node ${currentNode.nodeId} has been selected, because
-            it has the minimum path cost of ${currentNode.pathCost}`,
+            `Unvisited node ${currentNode.nodeId} has been selected, because it has the 
+            minimum path cost (${currentNode.pathCost}) of all unvisited nodes`,
             this.#currentGraph,
             { nodeHighlightList: [currentNode.nodeId], edgeHighlightList: [] }
          );
 
-         const currentNodeId = currentNode.nodeId;
-         const neighborIdList = this.#currentGraph.getNeighborNodeListFor(currentNodeId);
+         const neighborIdList = this.#currentGraph.getNeighborNodeListFor(currentNode.nodeId);
 
          for (const neighborId of neighborIdList) {
-            const edgeList = this.#currentGraph.getListOfEdgesBetween(currentNodeId, neighborId);
+
+            const edgeList = this.#currentGraph.getListOfEdgesBetween(
+               currentNode.nodeId,
+               neighborId
+            );
+
             const neighborRoutingNode = this.#routingTable.find(
                (node) => node.nodeId === neighborId
             );
 
             for (const edge of edgeList) {
-               if (!edge.weight || !neighborRoutingNode) {
-                  break;
+
+               const currentNeighbor = this.#currentGraph.nodeList.find(
+                  (node) => node.id === neighborId
+               );
+
+               if (!edge.weight || !neighborRoutingNode || !currentNeighbor) {
+                  continue;
                }
+
+               let stageDescription = '';
                const newPathCost = currentNode.pathCost + (edge.weight) ? edge.weight : 0;
                const isShorterPath = newPathCost < neighborRoutingNode.pathCost;
 
                if (isShorterPath) {
                   neighborRoutingNode.pathCost = newPathCost;
-                  neighborRoutingNode.predecessorNodeId = currentNodeId;
+                  neighborRoutingNode.predecessorNodeId = currentNode.nodeId;
 
-                  const currentNodeElement = this.#currentGraph.nodeList.find(
-                     (node) => node.id === neighborId
-                  );
+                  currentNeighbor.labelText = `predecessor: ${currentNode.nodeId}
+                  pathCost: ${newPathCost}`;
 
-                  if (currentNodeElement) {
-                     currentNodeElement.labelText = `predecessor: ${currentNodeId}
-                     pathCost: ${newPathCost}`;
-                  }
-
-                  super.addStepToCurrentStage(
-                     `Found new shortest path to node ${currentNodeElement?.id}. Update predecessor
-                     node to ${currentNode.nodeId} and pathCost to ${newPathCost}`,
-                     this.#currentGraph,
-                     {
-                        nodeHighlightList: [currentNodeElement?.id],
-                        edgeHighlightList: [edge.id] }
-                  );
+                  stageDescription = `Found new shortest path to node ${currentNeighbor.id}. Update predecessor
+                  node to ${currentNode.nodeId} and pathCost to ${newPathCost}`;
+               } else {
+                  stageDescription = `No new shortest path to node ${currentNeighbor.id} found.
+                  The cost of a new path from node ${currentNode.nodeId} to node 
+                  ${currentNeighbor.id} is ${newPathCost}, which is higher than the current path 
+                  ${neighborRoutingNode.pathCost}`;
                }
+
+               super.addStepToCurrentStage(
+                  stageDescription,
+                  this.#currentGraph,
+                  {
+                     nodeHighlightList: [currentNode.nodeId, currentNeighbor.id],
+                     edgeHighlightList: [edge.id]
+                  }
+               );
 
             }
 
          }
+
+         visitedNodeIdList.push(currentNode.nodeId);
 
       }
 
