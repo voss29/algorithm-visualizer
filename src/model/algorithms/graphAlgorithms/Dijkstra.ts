@@ -1,3 +1,4 @@
+/* eslint-disable no-constant-condition */
 /* eslint-disable no-continue */
 /* eslint-disable no-restricted-syntax */
 import { AlgorithmExecutor } from '../AlgorithmExecutor';
