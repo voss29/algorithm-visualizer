@@ -174,7 +174,20 @@ class Dijkstra extends AlgorithmExecutor<GraphInterface, GraphHighlightData> {
 
          visitedNodeIdList.push(currentNode.nodeId);
 
+         super.addStepToCurrentStage(
+            `Marked node ${currentNode.nodeId} as visited.\n 
+            List of visited nodes: [${visitedNodeIdList.join(', ')}]`,
+            this.#currentGraph,
+            { nodeHighlightList: [], edgeHighlightList: [] }
+         );
+
       }
+
+      super.addStepToCurrentStage(
+         'All nodes have been visited. Algorithm terminated',
+         this.#currentGraph,
+         { nodeHighlightList: [], edgeHighlightList: [] }
+      );
 
    }
 
