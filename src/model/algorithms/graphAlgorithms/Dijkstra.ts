@@ -87,7 +87,9 @@ class Dijkstra extends AlgorithmExecutor<GraphInterface, GraphHighlightData> {
 
       super.addStage(
          'Search Shortest Path',
-         'Description'
+         `Select the unvisited node with the currently lowest path cost. Check all neighboring
+         nodes. If they can be reached for a lower cost via the selected node, update their path 
+         cost and their predecessor node property. Iterate until all nodes have been visited.`
       );
 
       if (!this.#currentGraph) {
