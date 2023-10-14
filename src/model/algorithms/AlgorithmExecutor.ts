@@ -1,7 +1,7 @@
-import { cloneDeep } from 'lodash';
 import { AlgorithmData, HighlightData } from './algorithmTypes';
 import { AlgorithmStage } from './executionLog/AlgorithmStage';
 import { AlgorithmStep } from './executionLog/AlgorithmStep';
+import { Graph } from '../genericDataStructures/graph/Graph';
 
 
 abstract class AlgorithmExecutor<Data extends AlgorithmData, Highlight extends HighlightData> {
@@ -40,12 +40,18 @@ abstract class AlgorithmExecutor<Data extends AlgorithmData, Highlight extends H
 
 
    get inputData() {
-      return cloneDeep(this.#inputData);
+      if (this.#inputData?.nodeList) {
+         return new Graph(this.#inputData?.nodeList, this.#inputData?.edgeList);
+      }
+      return null;
    }
 
 
    get outputData() {
-      return cloneDeep(this.#outputData);
+      if (this.#outputData?.nodeList) {
+         return new Graph(this.#outputData?.nodeList, this.#outputData?.edgeList);
+      }
+      return null;
    }
 
 
