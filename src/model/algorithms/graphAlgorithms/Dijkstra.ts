@@ -118,28 +118,16 @@ class Dijkstra extends AlgorithmExecutor<GraphInterface, GraphHighlightData> {
       const visitedNodeIdList : string[] = [];
 
       while (true) {
-         const unvisitedNodeIdList = this.#routingTable
-            .filter((node) => !visitedNodeIdList.includes(node.nodeId))
-            .sort((node1, node2) => node1.pathCost - node2.pathCost);
 
-         if (unvisitedNodeIdList.length === 0) {
-            break;
-         }
+         const selectedNode = this.#findUnvisitedNodeWithLowestCost(visitedNodeIdList);
+         if (!selectedNode) { break; }
 
-         const currentNode = unvisitedNodeIdList[0];
-
-         super.addStepToCurrentStage(
-            `Unvisited node ${currentNode.nodeId} has been selected, because it has the minimum path cost of ${currentNode.pathCost} of all unvisited nodes`,
-            this.#currentGraph,
-            { nodeHighlightList: [currentNode.nodeId], edgeHighlightList: [] }
-         );
-
-         const neighborIdList = this.#currentGraph.getNeighborNodeListFor(currentNode.nodeId);
+         const neighborIdList = this.#currentGraph.getNeighborNodeListFor(selectedNode.nodeId);
 
          for (const neighborId of neighborIdList) {
 
             const edgeList = this.#currentGraph.getListOfEdgesBetween(
-               currentNode.nodeId,
+               selectedNode.nodeId,
                neighborId
             );
 
@@ -161,31 +149,31 @@ class Dijkstra extends AlgorithmExecutor<GraphInterface, GraphHighlightData> {
 
                let stageDescription = '';
                const edgeWeight = (edge.weight) ? edge.weight : 0;
-               const newPathCost = currentNode.pathCost + edgeWeight;
+               const newPathCost = selectedNode.pathCost + edgeWeight;
                const isShorterPath = newPathCost < neighborRoutingNode.pathCost;
 
                if (isShorterPath) {
                   neighborRoutingNode.pathCost = newPathCost;
-                  neighborRoutingNode.predecessorNodeId = currentNode.nodeId;
+                  neighborRoutingNode.predecessorNodeId = selectedNode.nodeId;
 
                   currentNeighbor.labelText = this.#createLabelText(
                      currentNeighbor.id,
-                     currentNode.nodeId,
+                     selectedNode.nodeId,
                      newPathCost
                   );
 
                   this.#currentGraph = new Graph(currentNodeList, this.#currentGraph.edgeList);
 
-                  stageDescription = `Found new shortest path to node ${currentNeighbor.id}. Update predecessor node to ${currentNode.nodeId} and pathCost to ${newPathCost}`;
+                  stageDescription = `Found new shortest path to node ${currentNeighbor.id}. Update predecessor node to ${selectedNode.nodeId} and pathCost to ${newPathCost}`;
                } else {
-                  stageDescription = `No new shortest path to node ${currentNeighbor.id} found. The cost of a new path from node ${currentNode.nodeId} to node ${currentNeighbor.id} is ${newPathCost}, which is higher than the current path ${neighborRoutingNode.pathCost}`;
+                  stageDescription = `No new shortest path to node ${currentNeighbor.id} found. The cost of a new path from node ${selectedNode.nodeId} to node ${currentNeighbor.id} is ${newPathCost}, which is higher than the current path ${neighborRoutingNode.pathCost}`;
                }
 
                super.addStepToCurrentStage(
                   stageDescription,
                   this.#currentGraph,
                   {
-                     nodeHighlightList: [currentNode.nodeId, currentNeighbor.id],
+                     nodeHighlightList: [selectedNode.nodeId, currentNeighbor.id],
                      edgeHighlightList: [edge.id]
                   }
                );
@@ -194,10 +182,10 @@ class Dijkstra extends AlgorithmExecutor<GraphInterface, GraphHighlightData> {
 
          }
 
-         visitedNodeIdList.push(currentNode.nodeId);
+         visitedNodeIdList.push(selectedNode.nodeId);
 
          super.addStepToCurrentStage(
-            `Marked node ${currentNode.nodeId} as visited. List of visited nodes: [${visitedNodeIdList.sort().join(', ')}]`,
+            `Marked node ${selectedNode.nodeId} as visited. List of visited nodes: [${visitedNodeIdList.sort().join(', ')}]`,
             this.#currentGraph,
             { nodeHighlightList: [], edgeHighlightList: [] }
          );
@@ -211,6 +199,27 @@ class Dijkstra extends AlgorithmExecutor<GraphInterface, GraphHighlightData> {
       );
 
       super.setOutputData(this.#currentGraph);
+   }
+
+
+   #findUnvisitedNodeWithLowestCost(visitedNodeIdList: string[]) {
+      const unvisitedNodeIdList = this.#routingTable
+         .filter((node) => !visitedNodeIdList.includes(node.nodeId))
+         .sort((node1, node2) => node1.pathCost - node2.pathCost);
+
+      if (unvisitedNodeIdList.length === 0 || !this.#currentGraph) {
+         return false;
+      }
+
+      const selectedNode = unvisitedNodeIdList[0];
+
+      super.addStepToCurrentStage(
+         `Unvisited node ${selectedNode.nodeId} has been selected, because it has the minimum path cost of ${selectedNode.pathCost} of all unvisited nodes`,
+         this.#currentGraph,
+         { nodeHighlightList: [selectedNode.nodeId], edgeHighlightList: [] }
+      );
+
+      return selectedNode;
    }
 
 
