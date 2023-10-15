@@ -17,6 +17,7 @@ class Dijkstra extends AlgorithmExecutor<GraphInterface, GraphHighlightData> {
 
    #routingTable: RoutingNode[];
    #currentGraph: GraphInterface | null;
+   #startNodeId: string;
 
 
    constructor(graph?: GraphInterface) {
@@ -28,11 +29,13 @@ class Dijkstra extends AlgorithmExecutor<GraphInterface, GraphHighlightData> {
       this.#initializeInputData(graph);
       this.#routingTable = [];
       this.#currentGraph = super.inputData;
+      this.#startNodeId = '';
    }
 
 
    execute(startNodeId: string) {
-      this.#executeInitialization(startNodeId);
+      this.#startNodeId = startNodeId;
+      this.#executeInitialization();
       this.#executeAlgorithm();
    }
 
@@ -54,7 +57,7 @@ class Dijkstra extends AlgorithmExecutor<GraphInterface, GraphHighlightData> {
    }
 
 
-   #executeInitialization(startNodeId: string) {
+   #executeInitialization() {
 
       super.addStage(
          'Graph Initialization',
@@ -66,25 +69,25 @@ class Dijkstra extends AlgorithmExecutor<GraphInterface, GraphHighlightData> {
       }
 
       this.#routingTable = super.inputData.nodeList.map((node) => {
-         const pathCost = (node.id === startNodeId) ? 0 : Infinity;
+         const pathCost = (node.id === this.#startNodeId) ? 0 : Infinity;
          return { nodeId: node.id, predecessorNodeId: '', pathCost };
       });
 
       let modifiedNodeList = super.inputData.nodeList.map((node) => {
-         const labelText = (node.id === startNodeId) ? this.#createLabelText(node.id, '', 0) : '';
+         const labelText = (node.id === this.#startNodeId) ? this.#createLabelText(node.id, '', 0) : '';
          return { id: node.id, labelText };
       });
 
       this.#currentGraph = new Graph(modifiedNodeList, super.inputData.edgeList);
 
       super.addStepToCurrentStage(
-         `The start node ${startNodeId} is initialized with the path cost 0`,
+         `The start node ${this.#startNodeId} is initialized with the path cost 0`,
          this.#currentGraph,
-         { nodeHighlightList: [startNodeId], edgeHighlightList: [] }
+         { nodeHighlightList: [this.#startNodeId], edgeHighlightList: [] }
       );
 
       modifiedNodeList = modifiedNodeList.map((node) => {
-         if (node.id !== startNodeId) {
+         if (node.id !== this.#startNodeId) {
             return { id: node.id, labelText: this.#createLabelText(node.id, '', Infinity) };
          }
          return { id: node.id, labelText: node.labelText };
@@ -93,7 +96,7 @@ class Dijkstra extends AlgorithmExecutor<GraphInterface, GraphHighlightData> {
       this.#currentGraph = new Graph(modifiedNodeList, super.inputData.edgeList);
 
       const nodeHighlightList = super.inputData.nodeList
-         .filter((node) => node.id !== startNodeId)
+         .filter((node) => node.id !== this.#startNodeId)
          .map((node) => node.id);
 
       super.addStepToCurrentStage(
