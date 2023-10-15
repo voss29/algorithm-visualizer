@@ -202,7 +202,7 @@ class Dijkstra extends AlgorithmExecutor<GraphInterface, GraphHighlightData> {
       } else {
          const graphGeneratorConfig: GraphGeneratorConfig = {
             nodeAmount: { min: 6, max: 8 },
-            edgesPerNode: { min: 2, max: 3 },
+            edgesPerNode: { min: 3, max: 5 },
             edgeWeight: { min: 1, max: 10 },
             allowRecursiveEdges: false,
             allowUnconnectedGraph: false
