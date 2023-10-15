@@ -1,8 +1,9 @@
+/* eslint-disable no-param-reassign */
 /* eslint-disable no-constant-condition */
 /* eslint-disable no-continue */
 /* eslint-disable no-restricted-syntax */
 import { AlgorithmExecutor } from '../AlgorithmExecutor';
-import { GraphInterface, GraphHighlightData, Node } from '../../genericDataStructures/graph/graphTypes';
+import { GraphInterface, GraphHighlightData, Node, Edge } from '../../genericDataStructures/graph/graphTypes';
 import { GraphGeneratorConfig } from '../../dataGenerators/graph/dataGeneratorTypes';
 import { generateRandomGraph } from '../../dataGenerators/graph/graphGenerator';
 import { Graph } from '../../genericDataStructures/graph/Graph';
@@ -136,48 +137,7 @@ class Dijkstra extends AlgorithmExecutor<GraphInterface, GraphHighlightData> {
             );
 
             for (const edge of edgeList) {
-
-               const currentNodeList: Node[] = this.#currentGraph.nodeList;
-
-               const currentNeighbor = currentNodeList.find(
-                  (node) => node.id === neighborId
-               );
-
-               if (!edge.weight || !neighborRoutingNode || !currentNeighbor) {
-                  continue;
-               }
-
-               let stageDescription = '';
-               const edgeWeight = (edge.weight) ? edge.weight : 0;
-               const newPathCost = selectedNode.pathCost + edgeWeight;
-               const isShorterPath = newPathCost < neighborRoutingNode.pathCost;
-
-               if (isShorterPath) {
-                  neighborRoutingNode.pathCost = newPathCost;
-                  neighborRoutingNode.predecessorNodeId = selectedNode.nodeId;
-
-                  currentNeighbor.labelText = this.#createLabelText(
-                     currentNeighbor.id,
-                     selectedNode.nodeId,
-                     newPathCost
-                  );
-
-                  this.#currentGraph = new Graph(currentNodeList, this.#currentGraph.edgeList);
-
-                  stageDescription = `Found new shortest path to node ${currentNeighbor.id}. Update predecessor node to ${selectedNode.nodeId} and pathCost to ${newPathCost}`;
-               } else {
-                  stageDescription = `No new shortest path to node ${currentNeighbor.id} found. The cost of a new path from node ${selectedNode.nodeId} to node ${currentNeighbor.id} is ${newPathCost}, which is higher than the current path ${neighborRoutingNode.pathCost}`;
-               }
-
-               super.addStepToCurrentStage(
-                  stageDescription,
-                  this.#currentGraph,
-                  {
-                     nodeHighlightList: [selectedNode.nodeId, currentNeighbor.id],
-                     edgeHighlightList: [edge.id]
-                  }
-               );
-
+               this.#checkEdgeForNewShortestPath(edge, selectedNode, neighborRoutingNode);
             }
 
          }
@@ -220,6 +180,59 @@ class Dijkstra extends AlgorithmExecutor<GraphInterface, GraphHighlightData> {
       );
 
       return selectedNode;
+   }
+
+
+   #checkEdgeForNewShortestPath(
+      edge: { id: number } & Edge,
+      selectedNode: RoutingNode,
+      neighborRoutingNode?: RoutingNode,
+   ) {
+
+      if (!this.#currentGraph || !edge.weight || !neighborRoutingNode) {
+         return;
+      }
+
+      const currentNodeList: Node[] = this.#currentGraph.nodeList;
+
+      const currentNeighbor = currentNodeList.find(
+         (node) => node.id === neighborRoutingNode.nodeId
+      );
+
+      if (!currentNeighbor) {
+         return;
+      }
+
+      let stageDescription = '';
+      const edgeWeight = (edge.weight) ? edge.weight : 0;
+      const newPathCost = selectedNode.pathCost + edgeWeight;
+      const isShorterPath = newPathCost < neighborRoutingNode.pathCost;
+
+      if (isShorterPath) {
+         neighborRoutingNode.pathCost = newPathCost;
+         neighborRoutingNode.predecessorNodeId = selectedNode.nodeId;
+
+         currentNeighbor.labelText = this.#createLabelText(
+            currentNeighbor.id,
+            selectedNode.nodeId,
+            newPathCost
+         );
+
+         this.#currentGraph = new Graph(currentNodeList, this.#currentGraph.edgeList);
+
+         stageDescription = `Found new shortest path to node ${currentNeighbor.id}. Update predecessor node to ${selectedNode.nodeId} and pathCost to ${newPathCost}`;
+      } else {
+         stageDescription = `No new shortest path to node ${currentNeighbor.id} found. The cost of a new path from node ${selectedNode.nodeId} to node ${currentNeighbor.id} is ${newPathCost}, which is higher than the current path ${neighborRoutingNode.pathCost}`;
+      }
+
+      super.addStepToCurrentStage(
+         stageDescription,
+         this.#currentGraph,
+         {
+            nodeHighlightList: [selectedNode.nodeId, currentNeighbor.id],
+            edgeHighlightList: [edge.id]
+         }
+      );
    }
 
 
