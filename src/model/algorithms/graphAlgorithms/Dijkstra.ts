@@ -91,13 +91,14 @@ class Dijkstra extends AlgorithmExecutor<GraphInterface, GraphHighlightData> {
 
       this.#currentGraph = new Graph(modifiedNodeList, super.inputData.edgeList);
 
-      const nodeHighlightList = super.inputData.nodeList.filter((node) => node.id !== startNodeId);
-      const nodeIdList = nodeHighlightList.map((node) => node.id);
+      const nodeHighlightList = super.inputData.nodeList
+         .filter((node) => node.id !== startNodeId)
+         .map((node) => node.id);
 
       super.addStepToCurrentStage(
          'All other nodes are initialized with the path cost infinity',
          this.#currentGraph,
-         { nodeHighlightList: nodeIdList, edgeHighlightList: [] }
+         { nodeHighlightList, edgeHighlightList: [] }
       );
 
    }
