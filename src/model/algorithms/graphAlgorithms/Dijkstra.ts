@@ -36,6 +36,23 @@ class Dijkstra extends AlgorithmExecutor<GraphInterface, GraphHighlightData> {
    }
 
 
+   #initializeInputData(graph?: GraphInterface) {
+      if (graph) {
+         super.setInputData(graph);
+      } else {
+         const graphGeneratorConfig: GraphGeneratorConfig = {
+            nodeAmount: { min: 6, max: 8 },
+            edgesPerNode: { min: 3, max: 5 },
+            edgeWeight: { min: 1, max: 10 },
+            allowRecursiveEdges: false,
+            allowUnconnectedGraph: false
+         };
+         const randomGraph = generateRandomGraph(graphGeneratorConfig);
+         super.setInputData(randomGraph);
+      }
+   }
+
+
    #executeInitialization(startNodeId: string) {
 
       super.addStage(
@@ -193,23 +210,6 @@ class Dijkstra extends AlgorithmExecutor<GraphInterface, GraphHighlightData> {
       );
 
       super.setOutputData(this.#currentGraph);
-   }
-
-
-   #initializeInputData(graph?: GraphInterface) {
-      if (graph) {
-         super.setInputData(graph);
-      } else {
-         const graphGeneratorConfig: GraphGeneratorConfig = {
-            nodeAmount: { min: 6, max: 8 },
-            edgesPerNode: { min: 3, max: 5 },
-            edgeWeight: { min: 1, max: 10 },
-            allowRecursiveEdges: false,
-            allowUnconnectedGraph: false
-         };
-         const randomGraph = generateRandomGraph(graphGeneratorConfig);
-         super.setInputData(randomGraph);
-      }
    }
 
 
