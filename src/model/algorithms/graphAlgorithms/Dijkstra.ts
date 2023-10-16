@@ -1,6 +1,5 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-constant-condition */
-/* eslint-disable no-continue */
 /* eslint-disable no-restricted-syntax */
 import { AlgorithmExecutor } from '../AlgorithmExecutor';
 import { GraphInterface, GraphHighlightData, Node, Edge } from '../../genericDataStructures/graph/graphTypes';
@@ -40,6 +39,61 @@ class Dijkstra extends AlgorithmExecutor<GraphInterface, GraphHighlightData> {
    }
 
 
+   calculateShortestPathTo(endNodeId: string) {
+      let edgeHighlightList: number[] = [];
+      let nodeHighlightList: string[] = [endNodeId];
+
+      let currentNode = this.#routingTable.find((node) => node.nodeId === endNodeId);
+      let totalPathCost = (currentNode?.pathCost) ? currentNode.pathCost : 0;
+
+      if (!this.#currentGraph) { return; }
+
+      super.addStage(
+         'Calculate Shortest Path',
+         'Calculate the shortest path via backtracking.'
+      );
+
+      super.addStepToCurrentStage(
+         `Selected node ${endNodeId} as end node of path from start node ${this.#startNodeId}. The cost of this path is ${currentNode?.pathCost}`,
+         this.#currentGraph,
+         { nodeHighlightList, edgeHighlightList }
+      );
+
+      while (totalPathCost > 0) {
+
+         if (!currentNode) { break; }
+
+         const predecessorNodeId = currentNode.predecessorNodeId as string;
+
+         const predecessorNode = this.#routingTable.find(
+            (node) => node.nodeId === predecessorNodeId
+         );
+
+         if (!predecessorNodeId || !currentNode || predecessorNode?.pathCost === undefined) {
+            break;
+         }
+
+         const currentEdgeCost = currentNode.pathCost - predecessorNode.pathCost;
+         totalPathCost = predecessorNode.pathCost;
+
+         const currentEdge = this.#currentGraph
+            .getListOfEdgesBetween(predecessorNodeId, currentNode.nodeId)
+            .filter((edge) => edge.weight === currentEdgeCost)[0];
+
+         nodeHighlightList = [...nodeHighlightList, predecessorNodeId];
+         edgeHighlightList = [...edgeHighlightList, currentEdge.id];
+
+         currentNode = this.#routingTable.find((node) => node.nodeId === predecessorNodeId);
+
+         super.addStepToCurrentStage(
+            `Backtracked path to node ${predecessorNodeId}`,
+            this.#currentGraph,
+            { nodeHighlightList, edgeHighlightList }
+         );
+      }
+   }
+
+
    #initializeInputData(graph?: GraphInterface) {
       if (graph) {
          super.setInputData(graph);
@@ -58,7 +112,6 @@ class Dijkstra extends AlgorithmExecutor<GraphInterface, GraphHighlightData> {
 
 
    #executeInitialization() {
-
       super.addStage(
          'Graph Initialization',
          'Add and initialize the properties predecessor and pathCost for each node'
@@ -104,12 +157,10 @@ class Dijkstra extends AlgorithmExecutor<GraphInterface, GraphHighlightData> {
          this.#currentGraph,
          { nodeHighlightList, edgeHighlightList: [] }
       );
-
    }
 
 
    #executeAlgorithm() {
-
       super.addStage(
          'Search Shortest Path',
          'Select the unvisited node with the currently lowest path cost. Check all neighboring nodes. If they can be reached for a lower cost via the selected node, update their path cost and their predecessor node property. Iterate until all nodes have been visited.'
@@ -191,7 +242,6 @@ class Dijkstra extends AlgorithmExecutor<GraphInterface, GraphHighlightData> {
       selectedNode: RoutingNode,
       neighborRoutingNode?: RoutingNode,
    ) {
-
       if (!this.#currentGraph || !edge.weight || !neighborRoutingNode) {
          return;
       }
