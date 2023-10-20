@@ -177,9 +177,11 @@ class Dijkstra extends AlgorithmExecutor<GraphInterface, GraphHighlightData> {
          const selectedNode = this.#findUnvisitedNodeWithLowestCost(visitedNodeIdList);
          if (!selectedNode) { break; }
 
-         const neighborIdList = this.#currentGraph.getNeighborNodeListFor(selectedNode.nodeId);
+         const unvisitedNeighborIdList = this.#currentGraph
+            .getNeighborNodeListFor(selectedNode.nodeId)
+            .filter((nodeId) => !visitedNodeIdList.includes(nodeId));
 
-         for (const neighborId of neighborIdList) {
+         for (const neighborId of unvisitedNeighborIdList) {
 
             const edgeList = this.#currentGraph.getListOfEdgesBetween(
                selectedNode.nodeId,
