@@ -64,6 +64,36 @@ describe('Dijkstra.execute()', () => {
          }
       });
 
+      assert.equal(
+         algorithm.executionLog[1].stepList[0].description,
+         'Unvisited node A has been selected, because it has the minimum path cost of 0 of all unvisited nodes'
+      );
+
+      assert.equal(
+         algorithm.executionLog[1].stepList[1].description,
+         'Found new shortest path to node B. Update predecessor node to A and pathCost to 5'
+      );
+
+      assert.equal(
+         algorithm.executionLog[1].stepList[2].description,
+         'Found new shortest path to node C. Update predecessor node to A and pathCost to 6'
+      );
+
+      assert.equal(
+         algorithm.executionLog[1].stepList[3].description,
+         'Found new shortest path to node E. Update predecessor node to A and pathCost to 4'
+      );
+
+      assert.equal(
+         algorithm.executionLog[1].stepList[4].description,
+         'Marked node A as visited. List of visited nodes: [A]'
+      );
+
+      assert.equal(
+         algorithm.executionLog[1].stepList[5].description,
+         'Unvisited node E has been selected, because it has the minimum path cost of 4 of all unvisited nodes'
+      );
+
    });
 
 });
