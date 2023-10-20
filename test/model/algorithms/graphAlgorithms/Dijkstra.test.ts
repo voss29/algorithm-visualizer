@@ -94,6 +94,11 @@ describe('Dijkstra.execute()', () => {
          'Unvisited node E has been selected, because it has the minimum path cost of 4 of all unvisited nodes'
       );
 
+      assert.equal(
+         algorithm.executionLog[1].stepList[6].description,
+         'No new shortest path to node B found. The cost of a new path from node E to node B is 11, which is higher than the current path 5'
+      );
+
    });
 
 });
