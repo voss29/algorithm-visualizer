@@ -99,6 +99,66 @@ describe('Dijkstra.execute()', () => {
          'No new shortest path to node B found. The cost of a new path from node E to node B is 11, which is higher than the current path 5'
       );
 
+      assert.equal(
+         algorithm.executionLog[1].stepList[7].description,
+         'Found new shortest path to node D. Update predecessor node to E and pathCost to 7'
+      );
+
+      assert.equal(
+         algorithm.executionLog[1].stepList[8].description,
+         'Marked node E as visited. List of visited nodes: [A, E]'
+      );
+
+      assert.equal(
+         algorithm.executionLog[1].stepList[9].description,
+         'Unvisited node B has been selected, because it has the minimum path cost of 5 of all unvisited nodes'
+      );
+
+      assert.equal(
+         algorithm.executionLog[1].stepList[10].description,
+         'No new shortest path to node C found. The cost of a new path from node B to node C is 13, which is higher than the current path 6'
+      );
+
+      assert.equal(
+         algorithm.executionLog[1].stepList[11].description,
+         'No new shortest path to node D found. The cost of a new path from node B to node D is 9, which is higher than the current path 7'
+      );
+
+      assert.equal(
+         algorithm.executionLog[1].stepList[12].description,
+         'Marked node B as visited. List of visited nodes: [A, B, E]'
+      );
+
+      assert.equal(
+         algorithm.executionLog[1].stepList[13].description,
+         'Unvisited node C has been selected, because it has the minimum path cost of 6 of all unvisited nodes'
+      );
+
+      assert.equal(
+         algorithm.executionLog[1].stepList[14].description,
+         'No new shortest path to node D found. The cost of a new path from node C to node D is 8, which is higher than the current path 7'
+      );
+
+      assert.equal(
+         algorithm.executionLog[1].stepList[15].description,
+         'Marked node C as visited. List of visited nodes: [A, B, C, E]'
+      );
+
+      assert.equal(
+         algorithm.executionLog[1].stepList[16].description,
+         'Unvisited node D has been selected, because it has the minimum path cost of 7 of all unvisited nodes'
+      );
+
+      assert.equal(
+         algorithm.executionLog[1].stepList[17].description,
+         'Marked node D as visited. List of visited nodes: [A, B, C, D, E]'
+      );
+
+      assert.equal(
+         algorithm.executionLog[1].stepList[18].description,
+         'All nodes have been visited. Algorithm terminated'
+      );
+
    });
 
 });
