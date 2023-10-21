@@ -28,7 +28,6 @@ describe('Dijkstra.execute()', () => {
    const graph = new Graph(nodeList, edgeList);
    const algorithm = new Dijkstra(graph);
 
-
    it('executes correctly', () => {
       const startNodeId = 'A';
       algorithm.execute(startNodeId);
@@ -189,7 +188,6 @@ describe('Dijkstra.calculateShortestPathTo()', () => {
    const graph = new Graph(nodeList, edgeList);
    const algorithm = new Dijkstra(graph);
 
-
    it('executes correctly', () => {
       const startNodeId = 'A';
       algorithm.execute(startNodeId);
@@ -204,7 +202,6 @@ describe('Dijkstra.calculateShortestPathTo()', () => {
          algorithm.executionLog[2].stepList[1].description,
          'Backtracked path to node E'
       );
-
 
       assert.equal(
          algorithm.executionLog[2].stepList[2].description,
