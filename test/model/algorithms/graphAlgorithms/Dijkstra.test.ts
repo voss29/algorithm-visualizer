@@ -63,9 +63,19 @@ describe('Dijkstra.execute()', () => {
          }
       });
 
+      assert.deepEqual(
+         algorithm.executionLog[0].stepList[1].highlightData,
+         { nodeHighlightList: ['B', 'C', 'D', 'E'], edgeHighlightList: [] }
+      );
+
       assert.equal(
          algorithm.executionLog[1].stepList[0].description,
          'Unvisited node A has been selected, because it has the minimum path cost of 0 of all unvisited nodes'
+      );
+
+      assert.equal(
+         algorithm.executionLog[1].stepList[0].data.nodeList[0].labelText,
+         '"A\n{0}"'
       );
 
       assert.equal(
@@ -74,13 +84,28 @@ describe('Dijkstra.execute()', () => {
       );
 
       assert.equal(
+         algorithm.executionLog[1].stepList[1].data.nodeList[1].labelText,
+         '"B\n{A, 5}"'
+      );
+
+      assert.equal(
          algorithm.executionLog[1].stepList[2].description,
          'Found new shortest path to node C. Update predecessor node to A and pathCost to 6'
       );
 
       assert.equal(
+         algorithm.executionLog[1].stepList[2].data.nodeList[2].labelText,
+         '"C\n{A, 6}"'
+      );
+
+      assert.equal(
          algorithm.executionLog[1].stepList[3].description,
          'Found new shortest path to node E. Update predecessor node to A and pathCost to 4'
+      );
+
+      assert.equal(
+         algorithm.executionLog[1].stepList[3].data.nodeList[4].labelText,
+         '"E\n{A, 4}"'
       );
 
       assert.equal(
@@ -101,6 +126,11 @@ describe('Dijkstra.execute()', () => {
       assert.equal(
          algorithm.executionLog[1].stepList[7].description,
          'Found new shortest path to node D. Update predecessor node to E and pathCost to 7'
+      );
+
+      assert.equal(
+         algorithm.executionLog[1].stepList[7].data.nodeList[3].labelText,
+         '"D\n{E, 7}"'
       );
 
       assert.equal(
