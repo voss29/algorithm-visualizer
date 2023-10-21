@@ -165,3 +165,55 @@ describe('Dijkstra.execute()', () => {
 
 
 
+describe('Dijkstra.calculateShortestPathTo()', () => {
+
+   const nodeList: Node[] = [
+      { id: 'A', labelText: '' },
+      { id: 'B', labelText: '' },
+      { id: 'C', labelText: '' },
+      { id: 'D', labelText: '' },
+      { id: 'E', labelText: '' },
+   ];
+
+   const edgeList: Edge[] = [
+      { startNode: 'A', endNode: 'B', isDirected: false, weight: 5 },
+      { startNode: 'A', endNode: 'C', isDirected: false, weight: 6 },
+      { startNode: 'A', endNode: 'E', isDirected: false, weight: 4 },
+      { startNode: 'B', endNode: 'C', isDirected: false, weight: 8 },
+      { startNode: 'B', endNode: 'D', isDirected: false, weight: 4 },
+      { startNode: 'B', endNode: 'E', isDirected: false, weight: 7 },
+      { startNode: 'C', endNode: 'D', isDirected: false, weight: 2 },
+      { startNode: 'D', endNode: 'E', isDirected: false, weight: 3 },
+   ];
+
+   const graph = new Graph(nodeList, edgeList);
+   const algorithm = new Dijkstra(graph);
+
+
+   it('executes correctly', () => {
+      const startNodeId = 'A';
+      algorithm.execute(startNodeId);
+      algorithm.calculateShortestPathTo('D');
+
+      assert.equal(
+         algorithm.executionLog[2].stepList[0].description,
+         'Selected node D as end node of path from start node A. The cost of this path is 7'
+      );
+
+      assert.equal(
+         algorithm.executionLog[2].stepList[1].description,
+         'Backtracked path to node E'
+      );
+
+
+      assert.equal(
+         algorithm.executionLog[2].stepList[2].description,
+         'Backtracked path to node A'
+      );
+
+   });
+
+});
+
+
+
