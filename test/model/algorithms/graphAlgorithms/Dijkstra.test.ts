@@ -78,6 +78,11 @@ describe('Dijkstra.execute()', () => {
          '"A\n{0}"'
       );
 
+      assert.deepEqual(
+         algorithm.executionLog[1].stepList[0].highlightData,
+         { nodeHighlightList: ['A'], edgeHighlightList: [] }
+      );
+
       assert.equal(
          algorithm.executionLog[1].stepList[1].description,
          'Found new shortest path to node B. Update predecessor node to A and pathCost to 5'
@@ -86,6 +91,11 @@ describe('Dijkstra.execute()', () => {
       assert.equal(
          algorithm.executionLog[1].stepList[1].data.nodeList[1].labelText,
          '"B\n{A, 5}"'
+      );
+
+      assert.deepEqual(
+         algorithm.executionLog[1].stepList[1].highlightData,
+         { nodeHighlightList: ['A', 'B'], edgeHighlightList: [0] }
       );
 
       assert.equal(
@@ -98,6 +108,11 @@ describe('Dijkstra.execute()', () => {
          '"C\n{A, 6}"'
       );
 
+      assert.deepEqual(
+         algorithm.executionLog[1].stepList[2].highlightData,
+         { nodeHighlightList: ['A', 'C'], edgeHighlightList: [1] }
+      );
+
       assert.equal(
          algorithm.executionLog[1].stepList[3].description,
          'Found new shortest path to node E. Update predecessor node to A and pathCost to 4'
@@ -106,6 +121,11 @@ describe('Dijkstra.execute()', () => {
       assert.equal(
          algorithm.executionLog[1].stepList[3].data.nodeList[4].labelText,
          '"E\n{A, 4}"'
+      );
+
+      assert.deepEqual(
+         algorithm.executionLog[1].stepList[3].highlightData,
+         { nodeHighlightList: ['A', 'E'], edgeHighlightList: [2] }
       );
 
       assert.equal(
@@ -118,9 +138,19 @@ describe('Dijkstra.execute()', () => {
          'Unvisited node E has been selected, because it has the minimum path cost of 4 of all unvisited nodes'
       );
 
+      assert.deepEqual(
+         algorithm.executionLog[1].stepList[5].highlightData,
+         { nodeHighlightList: ['E'], edgeHighlightList: [] }
+      );
+
       assert.equal(
          algorithm.executionLog[1].stepList[6].description,
          'No new shortest path to node B found. The cost of a new path from node E to node B is 11, which is higher than the current path 5'
+      );
+
+      assert.deepEqual(
+         algorithm.executionLog[1].stepList[6].highlightData,
+         { nodeHighlightList: ['E', 'B'], edgeHighlightList: [5] }
       );
 
       assert.equal(
@@ -133,6 +163,11 @@ describe('Dijkstra.execute()', () => {
          '"D\n{E, 7}"'
       );
 
+      assert.deepEqual(
+         algorithm.executionLog[1].stepList[7].highlightData,
+         { nodeHighlightList: ['E', 'D'], edgeHighlightList: [7] }
+      );
+
       assert.equal(
          algorithm.executionLog[1].stepList[8].description,
          'Marked node E as visited. List of visited nodes: [A, E]'
@@ -143,14 +178,29 @@ describe('Dijkstra.execute()', () => {
          'Unvisited node B has been selected, because it has the minimum path cost of 5 of all unvisited nodes'
       );
 
+      assert.deepEqual(
+         algorithm.executionLog[1].stepList[9].highlightData,
+         { nodeHighlightList: ['B'], edgeHighlightList: [] }
+      );
+
       assert.equal(
          algorithm.executionLog[1].stepList[10].description,
          'No new shortest path to node C found. The cost of a new path from node B to node C is 13, which is higher than the current path 6'
       );
 
+      assert.deepEqual(
+         algorithm.executionLog[1].stepList[10].highlightData,
+         { nodeHighlightList: ['B', 'C'], edgeHighlightList: [3] }
+      );
+
       assert.equal(
          algorithm.executionLog[1].stepList[11].description,
          'No new shortest path to node D found. The cost of a new path from node B to node D is 9, which is higher than the current path 7'
+      );
+
+      assert.deepEqual(
+         algorithm.executionLog[1].stepList[11].highlightData,
+         { nodeHighlightList: ['B', 'D'], edgeHighlightList: [4] }
       );
 
       assert.equal(
@@ -163,9 +213,19 @@ describe('Dijkstra.execute()', () => {
          'Unvisited node C has been selected, because it has the minimum path cost of 6 of all unvisited nodes'
       );
 
+      assert.deepEqual(
+         algorithm.executionLog[1].stepList[13].highlightData,
+         { nodeHighlightList: ['C'], edgeHighlightList: [] }
+      );
+
       assert.equal(
          algorithm.executionLog[1].stepList[14].description,
          'No new shortest path to node D found. The cost of a new path from node C to node D is 8, which is higher than the current path 7'
+      );
+
+      assert.deepEqual(
+         algorithm.executionLog[1].stepList[14].highlightData,
+         { nodeHighlightList: ['C', 'D'], edgeHighlightList: [6] }
       );
 
       assert.equal(
@@ -176,6 +236,11 @@ describe('Dijkstra.execute()', () => {
       assert.equal(
          algorithm.executionLog[1].stepList[16].description,
          'Unvisited node D has been selected, because it has the minimum path cost of 7 of all unvisited nodes'
+      );
+
+      assert.deepEqual(
+         algorithm.executionLog[1].stepList[16].highlightData,
+         { nodeHighlightList: ['D'], edgeHighlightList: [] }
       );
 
       assert.equal(
@@ -228,14 +293,29 @@ describe('Dijkstra.calculateShortestPathTo()', () => {
          'Selected node D as end node of path from start node A. The cost of this path is 7'
       );
 
+      assert.deepEqual(
+         algorithm.executionLog[2].stepList[0].highlightData,
+         { nodeHighlightList: ['D'], edgeHighlightList: [] }
+      );
+
       assert.equal(
          algorithm.executionLog[2].stepList[1].description,
          'Backtracked path to node E'
       );
 
+      assert.deepEqual(
+         algorithm.executionLog[2].stepList[1].highlightData,
+         { nodeHighlightList: ['D', 'E'], edgeHighlightList: [7] }
+      );
+
       assert.equal(
          algorithm.executionLog[2].stepList[2].description,
          'Backtracked path to node A'
+      );
+
+      assert.deepEqual(
+         algorithm.executionLog[2].stepList[2].highlightData,
+         { nodeHighlightList: ['D', 'E', 'A'], edgeHighlightList: [7, 2] }
       );
 
    });
