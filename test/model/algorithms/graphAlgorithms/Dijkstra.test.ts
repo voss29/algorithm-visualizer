@@ -145,7 +145,7 @@ describe('Dijkstra.execute()', () => {
 
       assert.equal(
          algorithm.executionLog[1].stepList[6].description,
-         'No new shortest path to node B found. The cost of a new path from node E to node B is 11, which is higher than the current path 5'
+         'No new shortest path from node A to node B found. The cost of the new path is 11 = 4 (path cost A to E) + 7 (path cost E to B). This is not lower than the current shortest path cost from A to B of 5.'
       );
 
       assert.deepEqual(
@@ -185,7 +185,7 @@ describe('Dijkstra.execute()', () => {
 
       assert.equal(
          algorithm.executionLog[1].stepList[10].description,
-         'No new shortest path to node C found. The cost of a new path from node B to node C is 13, which is higher than the current path 6'
+         'No new shortest path from node A to node C found. The cost of the new path is 13 = 5 (path cost A to B) + 8 (path cost B to C). This is not lower than the current shortest path cost from A to C of 6.'
       );
 
       assert.deepEqual(
@@ -195,7 +195,7 @@ describe('Dijkstra.execute()', () => {
 
       assert.equal(
          algorithm.executionLog[1].stepList[11].description,
-         'No new shortest path to node D found. The cost of a new path from node B to node D is 9, which is higher than the current path 7'
+         'No new shortest path from node A to node D found. The cost of the new path is 9 = 5 (path cost A to B) + 4 (path cost B to D). This is not lower than the current shortest path cost from A to D of 7.'
       );
 
       assert.deepEqual(
@@ -220,7 +220,7 @@ describe('Dijkstra.execute()', () => {
 
       assert.equal(
          algorithm.executionLog[1].stepList[14].description,
-         'No new shortest path to node D found. The cost of a new path from node C to node D is 8, which is higher than the current path 7'
+         'No new shortest path from node A to node D found. The cost of the new path is 8 = 6 (path cost A to C) + 2 (path cost C to D). This is not lower than the current shortest path cost from A to D of 7.'
       );
 
       assert.deepEqual(

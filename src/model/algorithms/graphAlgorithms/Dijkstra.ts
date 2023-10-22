@@ -277,7 +277,7 @@ class Dijkstra extends AlgorithmExecutor<GraphInterface, GraphHighlightData> {
 
          stageDescription = `New shortest path from node ${this.#startNodeId} to node ${currentNeighbor.id} found. Update properties ${currentNeighbor.id}.predecessorNode to ${selectedNode.nodeId} and ${currentNeighbor.id}.pathCost to ${newPathCost}.`;
       } else {
-         stageDescription = `No new shortest path to node ${currentNeighbor.id} found. The cost of a new path from node ${selectedNode.nodeId} to node ${currentNeighbor.id} is ${newPathCost}, which is higher than the current path ${neighborRoutingNode.pathCost}`;
+         stageDescription = `No new shortest path from node ${this.#startNodeId} to node ${currentNeighbor.id} found. The cost of the new path is ${newPathCost} = ${selectedNode.pathCost} (path cost ${this.#startNodeId} to ${selectedNode.nodeId}) + ${edgeWeight} (path cost ${selectedNode.nodeId} to ${currentNeighbor.id}). This is not lower than the current shortest path cost from ${this.#startNodeId} to ${currentNeighbor.id} of ${neighborRoutingNode.pathCost}.`;
       }
 
       super.addStepToCurrentStage(
