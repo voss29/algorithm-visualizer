@@ -54,7 +54,7 @@ class Dijkstra extends AlgorithmExecutor<GraphInterface, GraphHighlightData> {
       );
 
       super.addStepToCurrentStage(
-         `Selected node ${endNodeId} as end node of path from start node ${this.#startNodeId}. The cost of this path is ${currentNode?.pathCost}`,
+         `Selected node ${endNodeId} as end node of path from start node ${this.#startNodeId}. The cost of the shortest path from ${this.#startNodeId} to ${endNodeId} is ${currentNode?.pathCost}.`,
          this.#currentGraph,
          { nodeHighlightList, edgeHighlightList }
       );
@@ -114,7 +114,7 @@ class Dijkstra extends AlgorithmExecutor<GraphInterface, GraphHighlightData> {
    #executeInitialization() {
       super.addStage(
          'Graph Initialization',
-         'Add and initialize the properties predecessor and pathCost for each node'
+         'Add and initialize the properties predecessorNode and pathCost for each node'
       );
 
       if (!super.inputData) {
@@ -209,7 +209,7 @@ class Dijkstra extends AlgorithmExecutor<GraphInterface, GraphHighlightData> {
       }
 
       super.addStepToCurrentStage(
-         'All nodes have been visited. Algorithm terminated',
+         'All nodes have been visited. Algorithm terminated.',
          this.#currentGraph,
          { nodeHighlightList: [], edgeHighlightList: [] }
       );

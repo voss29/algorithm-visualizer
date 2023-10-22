@@ -250,7 +250,7 @@ describe('Dijkstra.execute()', () => {
 
       assert.equal(
          algorithm.executionLog[1].stepList[18].description,
-         'All nodes have been visited. Algorithm terminated'
+         'All nodes have been visited. Algorithm terminated.'
       );
 
    });
@@ -290,7 +290,7 @@ describe('Dijkstra.calculateShortestPathTo()', () => {
 
       assert.equal(
          algorithm.executionLog[2].stepList[0].description,
-         'Selected node D as end node of path from start node A. The cost of this path is 7'
+         'Selected node D as end node of path from start node A. The cost of the shortest path from A to D is 7.',
       );
 
       assert.deepEqual(
