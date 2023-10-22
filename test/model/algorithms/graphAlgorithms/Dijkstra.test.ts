@@ -85,7 +85,7 @@ describe('Dijkstra.execute()', () => {
 
       assert.equal(
          algorithm.executionLog[1].stepList[1].description,
-         'Found new shortest path to node B. Update predecessor node to A and pathCost to 5'
+         'New shortest path from node A to node B found. Update properties B.predecessorNode to A and B.pathCost to 5.'
       );
 
       assert.equal(
@@ -100,7 +100,7 @@ describe('Dijkstra.execute()', () => {
 
       assert.equal(
          algorithm.executionLog[1].stepList[2].description,
-         'Found new shortest path to node C. Update predecessor node to A and pathCost to 6'
+         'New shortest path from node A to node C found. Update properties C.predecessorNode to A and C.pathCost to 6.'
       );
 
       assert.equal(
@@ -115,7 +115,7 @@ describe('Dijkstra.execute()', () => {
 
       assert.equal(
          algorithm.executionLog[1].stepList[3].description,
-         'Found new shortest path to node E. Update predecessor node to A and pathCost to 4'
+         'New shortest path from node A to node E found. Update properties E.predecessorNode to A and E.pathCost to 4.'
       );
 
       assert.equal(
@@ -155,7 +155,7 @@ describe('Dijkstra.execute()', () => {
 
       assert.equal(
          algorithm.executionLog[1].stepList[7].description,
-         'Found new shortest path to node D. Update predecessor node to E and pathCost to 7'
+         'New shortest path from node A to node D found. Update properties D.predecessorNode to E and D.pathCost to 7.'
       );
 
       assert.equal(

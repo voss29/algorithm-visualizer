@@ -163,7 +163,7 @@ class Dijkstra extends AlgorithmExecutor<GraphInterface, GraphHighlightData> {
    #executeAlgorithm() {
       super.addStage(
          'Search Shortest Path',
-         'Select the unvisited node with the currently lowest path cost. Check all neighboring nodes. If they can be reached for a lower cost via the selected node, update their path cost and their predecessor node property. Iterate until all nodes have been visited.'
+         'Select the unvisited node with the currently lowest path cost. Check all neighboring unvisited nodes. If they can be reached for a lower cost via the selected node, update their path cost and their predecessor node property. Iterate until all nodes have been visited.'
       );
 
       if (!this.#currentGraph) {
@@ -275,7 +275,7 @@ class Dijkstra extends AlgorithmExecutor<GraphInterface, GraphHighlightData> {
 
          this.#currentGraph = new Graph(currentNodeList, this.#currentGraph.edgeList);
 
-         stageDescription = `Found new shortest path to node ${currentNeighbor.id}. Update predecessor node to ${selectedNode.nodeId} and pathCost to ${newPathCost}`;
+         stageDescription = `New shortest path from node ${this.#startNodeId} to node ${currentNeighbor.id} found. Update properties ${currentNeighbor.id}.predecessorNode to ${selectedNode.nodeId} and ${currentNeighbor.id}.pathCost to ${newPathCost}.`;
       } else {
          stageDescription = `No new shortest path to node ${currentNeighbor.id} found. The cost of a new path from node ${selectedNode.nodeId} to node ${currentNeighbor.id} is ${newPathCost}, which is higher than the current path ${neighborRoutingNode.pathCost}`;
       }
