@@ -31,7 +31,7 @@ function App(): ReactElement {
                   {
                      name: 'Dijkstra',
                      isCategory: false,
-                     loadPage: () => appRouter.setPage('#dijkstra')
+                     loadPage: () => appRouter.setPage('#dijkstraOverview')
                   }
                ]
             }

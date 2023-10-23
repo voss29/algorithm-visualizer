@@ -19,7 +19,7 @@ class AppRouting {
    constructor(setAlgorithm: (a: Algorithm) => void) {
       this.#setAlgorithm = setAlgorithm;
       this.#componentRoutingMap.set('#landingPage', <LandingPage />);
-      this.#componentRoutingMap.set('#dijkstra', <AlgorithmDescriptionPage />);
+      this.#componentRoutingMap.set('#dijkstraOverview', <AlgorithmDescriptionPage />);
    }
 
 
@@ -43,7 +43,7 @@ class AppRouting {
    #routeAlgorithm(pageId: string) {
       switch (pageId) {
 
-         case '#dijkstra':
+         case '#dijkstraOverview':
             const algorithm = new Dijkstra();
             algorithm.execute();
             this.#setAlgorithm(algorithm);
