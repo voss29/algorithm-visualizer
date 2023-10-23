@@ -1,11 +1,23 @@
-import React, { ReactElement } from 'react';
+import React, { ReactElement, useState, useEffect } from 'react';
 import { AlgorithmCategory } from '../shared/MenuBar/menuBarTypes';
-import { AlgorithmDescriptionPage } from '../pages/algorithmDescriptionPage/AlgorithmDescriptionPage';
 import { MenuBar } from '../shared/MenuBar/MenuBar';
+import { AlgorithmExecutor } from '../../model/algorithms/AlgorithmExecutor';
+import { AlgorithmData, HighlightData } from '../../model/algorithms/algorithmTypes';
+import { AlgorithmContext } from './AppContext';
+import { AppRouting } from './AppRouting';
 import './app.css';
+
+type Algorithm = AlgorithmExecutor<AlgorithmData, HighlightData> | undefined;
 
 
 function App(): ReactElement {
+
+   const [algorithm, setAlgorithm] = useState<Algorithm>();
+   const [page, setPage] = useState<ReactElement>();
+
+   const appRouter = new AppRouting(setAlgorithm);
+
+   useEffect(() => setPage(appRouter.getPage()), []);
 
    const menuData: AlgorithmCategory[] = [
       {
@@ -19,7 +31,7 @@ function App(): ReactElement {
                   {
                      name: 'Dijkstra',
                      isCategory: false,
-                     loadPage: () => console.log('loading page dijkstra')
+                     loadPage: () => appRouter.setPage('#dijkstra')
                   }
                ]
             }
@@ -32,11 +44,12 @@ function App(): ReactElement {
       }
    ];
 
-
    return (
       <>
          <MenuBar menuCategoryList={menuData} />
-         <AlgorithmDescriptionPage />
+         <AlgorithmContext.Provider value={algorithm}>
+            { page }
+         </AlgorithmContext.Provider>
       </>
    );
 }
