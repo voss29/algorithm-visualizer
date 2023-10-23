@@ -4,7 +4,7 @@ import { Node, Edge } from '../../../../src/model/genericDataStructures/graph/gr
 import { Dijkstra } from '../../../../src/model/algorithms/graphAlgorithms/Dijkstra';
 
 
-describe('Dijkstra.execute()', () => {
+describe('Dijkstra.constructor()', () => {
 
    const nodeList: Node[] = [
       { id: 'A', labelText: '' },
@@ -30,7 +30,6 @@ describe('Dijkstra.execute()', () => {
 
    it('executes correctly', () => {
       const startNodeId = 'A';
-      algorithm.execute(startNodeId);
 
       assert.equal(
          algorithm.executionLog[0].stepList[0].description,
@@ -284,8 +283,6 @@ describe('Dijkstra.calculateShortestPathTo()', () => {
    const algorithm = new Dijkstra(graph);
 
    it('executes correctly', () => {
-      const startNodeId = 'A';
-      algorithm.execute(startNodeId);
       algorithm.calculateShortestPathTo('D');
 
       assert.equal(
