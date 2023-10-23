@@ -4,11 +4,17 @@ import { GraphVisualization } from '../../shared/GraphVisualization/GraphVisuali
 import { AlgorithmData } from '../../../model/algorithms/algorithmTypes';
 import { GraphInterface } from '../../../model/genericDataStructures/graph/graphTypes';
 import { AlgorithmContext } from '../../app/AppContext';
+import ArrowRightIcon from '../../icons/arrowRightIcon.svg';
 import './algorithmDescriptionPage.css';
 
 
-function AlgorithmDescriptionPage(): ReactElement {
+type Props = {
+   setPage: (pageId: string) => void
+};
 
+function AlgorithmDescriptionPage(props: Props): ReactElement {
+
+   const { setPage } = props;
    const algorithm = useContext(AlgorithmContext);
 
 
@@ -57,6 +63,13 @@ function AlgorithmDescriptionPage(): ReactElement {
             <h3>Code</h3>
             <code>{algorithm?.codeExample}</code>
          </section>
+         <button
+            type="button"
+            title="Visualize Algorithm"
+            onClick={() => setPage('#dijkstraVisualization')}
+         >
+            <img src={ArrowRightIcon} alt=">" width="25" height="70" draggable="false" />
+         </button>
       </main>
    );
 }

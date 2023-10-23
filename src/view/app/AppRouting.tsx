@@ -19,7 +19,7 @@ class AppRouting {
    constructor(setAlgorithm: (a: Algorithm) => void) {
       this.#setAlgorithm = setAlgorithm;
       this.#componentRoutingMap.set('#landingPage', <LandingPage />);
-      this.#componentRoutingMap.set('#dijkstraOverview', <AlgorithmDescriptionPage />);
+      this.#componentRoutingMap.set('#dijkstraOverview', <AlgorithmDescriptionPage setPage={this.setPage} />);
    }
 
 
