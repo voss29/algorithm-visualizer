@@ -1,13 +1,14 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { assert } from 'chai';
 import { AlgorithmExecutor } from '../../../src/model/algorithms/AlgorithmExecutor';
-import { AlgorithmData, HighlightData } from '../../../src/model/algorithms/algorithmTypes';
+import { AlgorithmData, HighlightData, AlgorithmType } from '../../../src/model/algorithms/algorithmTypes';
+import { MermaidGraphParserConfig } from '../../../src/view/shared/GraphVisualization/mermaidGraphParser';
 
 
 class Algorithm extends AlgorithmExecutor<AlgorithmData, HighlightData> {
 
-   constructor(name: string, description: string, codeExample: string) {
-      super(name, description, codeExample);
+   constructor(type: AlgorithmType, name: string, description: string, codeExample: string) {
+      super(type, name, description, codeExample);
 
       this.setInputData({
          nodeList: [{ id: 'A', labelText: 'A' }, { id: 'B', labelText: 'B' }],
@@ -27,6 +28,11 @@ class Algorithm extends AlgorithmExecutor<AlgorithmData, HighlightData> {
          getListOfEdgesBetween: (node1, node2) => []
       });
    }
+
+   buildParserConfig(data: AlgorithmData, highlightData: HighlightData): MermaidGraphParserConfig {
+      return { graph: data, direction: 'LR' };
+   }
+
 
    addStageWrapper(name: string, description: string) {
       this.addStage(name, description);
@@ -60,7 +66,7 @@ class Algorithm extends AlgorithmExecutor<AlgorithmData, HighlightData> {
 describe('AlgorithmExecutor', () => {
 
    it('instantiates correctly', () => {
-      const algorithm = new Algorithm('algorithm name', 'algorithm description', 'code');
+      const algorithm = new Algorithm('graph', 'algorithm name', 'algorithm description', 'code');
       assert.equal(algorithm.algorithmName, 'algorithm name');
       assert.equal(algorithm.algorithmDescription, 'algorithm description');
       assert.equal(algorithm.codeExample, 'code');
@@ -83,7 +89,7 @@ describe('AlgorithmExecutor', () => {
 
 
    it('getter for inputData returns clone', () => {
-      const algorithm = new Algorithm('algorithm name', 'algorithm description', 'code');
+      const algorithm = new Algorithm('graph', 'algorithm name', 'algorithm description', 'code');
 
       const cloneInputData = algorithm.inputData;
       assert.notEqual(algorithm.inputData?.nodeList, cloneInputData?.nodeList);
@@ -94,7 +100,7 @@ describe('AlgorithmExecutor', () => {
 
 
    it('getter for outputData returns clone', () => {
-      const algorithm = new Algorithm('algorithm name', 'algorithm description', 'code');
+      const algorithm = new Algorithm('graph', 'algorithm name', 'algorithm description', 'code');
 
       const cloneOutputData = algorithm.outputData;
       assert.notEqual(algorithm.outputData?.nodeList, cloneOutputData?.nodeList);
@@ -105,7 +111,7 @@ describe('AlgorithmExecutor', () => {
 
 
    it('getter for executionLog returns clone', () => {
-      const algorithm = new Algorithm('algorithm name', 'algorithm description', 'code');
+      const algorithm = new Algorithm('graph', 'algorithm name', 'algorithm description', 'code');
       algorithm.execute();
 
       const cloneExecutionLog = algorithm.executionLog;
@@ -117,7 +123,7 @@ describe('AlgorithmExecutor', () => {
 
 
    it('method addStage() adds a new stage to execution log', () => {
-      const algorithm = new Algorithm('algorithm name', 'algorithm description', 'code');
+      const algorithm = new Algorithm('graph', 'algorithm name', 'algorithm description', 'code');
       assert.equal(algorithm.executionLog.length, 0);
 
       algorithm.addStageWrapper('stage name', 'stage description');
@@ -130,7 +136,7 @@ describe('AlgorithmExecutor', () => {
 
 
    it('method addStepToCurrentStage() adds a new step to current stage', () => {
-      const algorithm = new Algorithm('algorithm name', 'algorithm description', 'code');
+      const algorithm = new Algorithm('graph', 'algorithm name', 'algorithm description', 'code');
 
       algorithm.addStageWrapper('stage name', 'stage description');
       algorithm.addStepToCurrentStageWrapper();
