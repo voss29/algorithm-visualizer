@@ -1,8 +1,16 @@
 import { GraphInterface, GraphHighlightData } from '../genericDataStructures/graph/graphTypes';
 
-
 type AlgorithmData = GraphInterface;
+
 type HighlightData = GraphHighlightData;
 
+type AlgorithmType = 'graph' | 'sorting';
 
-export { AlgorithmData, HighlightData };
+type AlgorithmName = 'dijkstra';
+
+export {
+   AlgorithmData,
+   HighlightData,
+   AlgorithmType,
+   AlgorithmName
+};
