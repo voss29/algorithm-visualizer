@@ -1,11 +1,13 @@
-import { AlgorithmData, HighlightData } from './algorithmTypes';
+import { AlgorithmData, HighlightData, AlgorithmType } from './algorithmTypes';
 import { AlgorithmStage } from './executionLog/AlgorithmStage';
 import { AlgorithmStep } from './executionLog/AlgorithmStep';
 import { Graph } from '../genericDataStructures/graph/Graph';
+import { MermaidGraphParserConfig } from '../../view/shared/GraphVisualization/mermaidGraphParser';
 
 
 abstract class AlgorithmExecutor<Data extends AlgorithmData, Highlight extends HighlightData> {
 
+   #algorithmType: AlgorithmType;
    #algorithmName: string;
    #algorithmDescription: string;
    #codeExample: string;
@@ -14,13 +16,19 @@ abstract class AlgorithmExecutor<Data extends AlgorithmData, Highlight extends H
    #executionLog: AlgorithmStage<Data, Highlight>[];
 
 
-   constructor(name: string, description: string, codeExample: string) {
+   constructor(type: AlgorithmType, name: string, description: string, codeExample: string) {
+      this.#algorithmType = type;
       this.#algorithmName = name;
       this.#algorithmDescription = description;
       this.#codeExample = codeExample;
       this.#inputData = null;
       this.#outputData = null;
       this.#executionLog = [];
+   }
+
+
+   get algorithmType() {
+      return this.#algorithmType;
    }
 
 
@@ -74,6 +82,9 @@ abstract class AlgorithmExecutor<Data extends AlgorithmData, Highlight extends H
    protected setOutputData(data: Data) {
       this.#outputData = data;
    }
+
+
+   abstract buildParserConfig(data: Data, highlightData: Highlight): MermaidGraphParserConfig;
 
 
    abstract execute(input?: any): void;
