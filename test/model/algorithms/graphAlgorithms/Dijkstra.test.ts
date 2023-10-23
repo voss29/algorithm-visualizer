@@ -27,6 +27,7 @@ describe('Dijkstra.constructor()', () => {
 
    const graph = new Graph(nodeList, edgeList);
    const algorithm = new Dijkstra(graph);
+   algorithm.execute();
 
    it('executes correctly', () => {
       const startNodeId = 'A';
@@ -281,6 +282,7 @@ describe('Dijkstra.calculateShortestPathTo()', () => {
 
    const graph = new Graph(nodeList, edgeList);
    const algorithm = new Dijkstra(graph);
+   algorithm.execute();
 
    it('executes correctly', () => {
       algorithm.calculateShortestPathTo('D');
