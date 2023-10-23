@@ -6,6 +6,7 @@ import { GraphInterface, GraphHighlightData, Node, Edge } from '../../genericDat
 import { GraphGeneratorConfig } from '../../dataGenerators/graph/dataGeneratorTypes';
 import { generateRandomGraph } from '../../dataGenerators/graph/graphGenerator';
 import { Graph } from '../../genericDataStructures/graph/Graph';
+import { MermaidGraphParserConfig } from '../../../view/shared/GraphVisualization/mermaidGraphParser';
 
 
 type RoutingNode = { nodeId: string, predecessorNodeId: string, pathCost: number };
@@ -20,20 +21,41 @@ class Dijkstra extends AlgorithmExecutor<GraphInterface, GraphHighlightData> {
 
 
    constructor(graph?: GraphInterface) {
+      const type = 'graph';
       const name = 'Dijkstra Algorithm';
       const description = 'Phase 1: Add properties predecessorNode and pathCost to all nodes. Initialize the path cost of the start node with 0 and all other nodes with Infinity.\nPhase 2: Select the unvisited node with the currently lowest path cost. Check all neighboring nodes. If they can be reached for a lower cost via the selected node, update their path cost and their predecessor node property. Iterate until all nodes have been visited.';
       const codeExample = 'function Dijkstra(graph, startNode) {\n\n\t for (const node of graph.nodeList) {\n\t\tnode.predecessorNode = undefined;\n\t\tnode.pathCost = (node === startNode) ? 0 : Infinity;\n\t}\n\n\tconst unvisitedNodeList = [];\n\n\twhile (unvisitedNodeList.length < graph.nodeList.length) {\n\t\tconst minimumCostNode = graph.nodeList\n\t\t\t.filter((node) => !unvisitedNodeList.includes(node))\n\t\t\t.sort((node1, node2) => node1.pathCost - node2.pathCost)[0];\n\n\t\tfor (const neighborNode of minimumCostNode.neighborNodeList) {\n\t\t\tconst newPathCost = minimumCostNode.pathCost + distance(minimumCostNode, neighborNode);\n\t\t\tif (newPathCost < neighborNode.pathCost) {\n\t\t\t\tneighborNode.predecessorNode = minimumCostNode;\n\t\t\t\tneighborNode.pathCost = newPathCost;\n\t\t\t}\n\t\t}\n\n\t\tunvisitedNodeList.push(minimumCodeNode);\n\t}\n\n}';
 
-      super(name, description, codeExample);
+      super(type, name, description, codeExample);
       this.#initializeInputData(graph);
       this.#routingTable = [];
       this.#currentGraph = super.inputData;
-      this.#startNodeId = '';
+      this.#startNodeId = 'A';
    }
 
 
-   execute(startNodeId: string) {
-      this.#startNodeId = startNodeId;
+   buildParserConfig(data: GraphInterface, highlightData?: GraphHighlightData):
+   MermaidGraphParserConfig {
+      if (highlightData) {
+         const { nodeHighlightList, edgeHighlightList } = highlightData;
+         return {
+            graph: data,
+            direction: 'LR',
+            nodeHighlightList,
+            edgeHighlightList
+         };
+      }
+
+      return {
+         graph: data,
+         direction: 'LR',
+         nodeHighlightList: [],
+         edgeHighlightList: []
+      };
+   }
+
+
+   execute() {
       this.#executeInitialization();
       this.#executeAlgorithm();
    }
@@ -170,7 +192,7 @@ class Dijkstra extends AlgorithmExecutor<GraphInterface, GraphHighlightData> {
          throw new Error('Property currentGraph is null');
       }
 
-      const visitedNodeIdList : string[] = [];
+      const visitedNodeIdList: string[] = [];
 
       while (true) {
 
