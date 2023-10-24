@@ -1,0 +1,35 @@
+.navigationStageContainer > button {
+   align-items: center;
+   display: flex;
+   flex-direction: row;
+   justify-content: space-between;
+   min-width: 100%;
+   padding: .5rem;
+}
+
+.navigationStageStatus {
+   border: 1px solid black;
+   border-radius: 50%;
+   height: 25px;
+   width: 25px;
+}
+
+.statusCompleted {
+   background-color: green;
+}
+
+.statusPending {
+   background-color: white;
+}
+
+.navigationStageName {
+   font-size: 1.2rem;
+}
+
+.navigationStageStep {
+   border: 1px solid black;
+   padding: .5rem;
+   padding-left: 2rem;
+   margin-bottom: 5px;
+   margin-top: 5px;
+}
