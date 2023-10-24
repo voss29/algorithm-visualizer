@@ -45,7 +45,7 @@ function AlgorithmDescriptionPage(props: Props): ReactElement {
    return (
       <main className="algorithmDescriptionPage">
          <header>
-            <h2>Dijkstra&apos;s Algorithm</h2>
+            <h2>{algorithm?.algorithmName}</h2>
          </header>
          <section>
             <h3>Input Data</h3>
