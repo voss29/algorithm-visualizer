@@ -48,8 +48,6 @@ function NavigationStage(props: Props): ReactElement {
          </section>
          { buildStepContainer() }
       </>
-
-
    );
 }
 
