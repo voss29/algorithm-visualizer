@@ -5,27 +5,33 @@ import './graphVisualization.css';
 
 
 type Props = {
-   parserConfig: MermaidGraphParserConfig
+   parserConfig?: MermaidGraphParserConfig
 };
 
 
-function GraphVisualization(props: Props): ReactElement {
+function GraphVisualization(props: Props): ReactElement | null {
    const { parserConfig } = props;
 
    const [graphSVGString, setGraphSVGString] = useState('');
 
    useEffect(() => {
       async function renderSVG() {
-         const parsedGraphDefinition = parseMermaidGraph(parserConfig);
-         const { svg } = await mermaid.render('graph', parsedGraphDefinition);
-         setGraphSVGString(svg);
+         if (parserConfig) {
+            const parsedGraphDefinition = parseMermaidGraph(parserConfig);
+            const { svg } = await mermaid.render('graph', parsedGraphDefinition);
+            setGraphSVGString(svg);
+         }
       }
       renderSVG();
    }, []);
 
-   // TODO: find better solution
-   // eslint-disable-next-line react/no-danger
-   return <div dangerouslySetInnerHTML={{ __html: graphSVGString }} />;
+   if (parserConfig) {
+      // TODO: find better solution
+      // eslint-disable-next-line react/no-danger
+      return <div dangerouslySetInnerHTML={{ __html: graphSVGString }} />;
+   }
+
+   return null;
 }
 
 
