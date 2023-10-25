@@ -5,6 +5,7 @@ import { AlgorithmData, HighlightData } from '../../model/algorithms/algorithmTy
 import { AlgorithmExecutor } from '../../model/algorithms/AlgorithmExecutor';
 import { Dijkstra } from '../../model/algorithms/graphAlgorithms/Dijkstra';
 import { AlgorithmDescriptionPage } from '../pages/algorithmDescriptionPage/AlgorithmDescriptionPage';
+import { AlgorithmVisualizationPage } from '../pages/algorithmVisualizationPage/AlgorithmVisualizationPage';
 
 
 type Algorithm = AlgorithmExecutor<AlgorithmData, HighlightData> | undefined;
@@ -20,6 +21,7 @@ class AppRouting {
       this.#setAlgorithm = setAlgorithm;
       this.#componentRoutingMap.set('#landingPage', <LandingPage />);
       this.#componentRoutingMap.set('#dijkstraOverview', <AlgorithmDescriptionPage setPage={this.setPage} />);
+      this.#componentRoutingMap.set('#dijkstraVisualization', <AlgorithmVisualizationPage />);
    }
 
 
@@ -44,6 +46,7 @@ class AppRouting {
       switch (pageId) {
 
          case '#dijkstraOverview':
+         case '#dijkstraVisualization':
             const algorithm = new Dijkstra();
             algorithm.execute();
             this.#setAlgorithm(algorithm);
