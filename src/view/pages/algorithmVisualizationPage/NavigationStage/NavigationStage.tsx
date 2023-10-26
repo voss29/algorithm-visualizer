@@ -9,13 +9,22 @@ import './navigationStage.css';
 
 type Props = {
    algorithmStage: AlgorithmStage<AlgorithmData, HighlightData>,
+   setStageId: (stageId: number) => void,
+   setStepId: (stepId: number) => void,
    isStageCompleted?: boolean,
    currentStepIndex?: number
 };
 
 
 function NavigationStage(props: Props): ReactElement {
-   const { algorithmStage, isStageCompleted = false, currentStepIndex = -1 } = props;
+   const {
+      algorithmStage,
+      setStageId,
+      setStepId,
+      isStageCompleted = false,
+      currentStepIndex = -1
+   } = props;
+
    const [isExtended, setIsExtended] = useState(currentStepIndex >= 0);
 
 
@@ -45,9 +54,24 @@ function NavigationStage(props: Props): ReactElement {
       }
 
       const elementList = stepList.map(
-         (step) => <p className="navigationStageStep">{step.description}</p>
+         (step, index) => (
+            <button
+               key={index}
+               type="button"
+               className="navigationStageStep"
+               onClick={() => setStepId(step.id)}
+            >
+               {step.description}
+            </button>
+         )
       );
       return <section>{elementList}</section>;
+   }
+
+
+   function handleStageClick() {
+      setIsExtended(!isExtended);
+      setStageId(algorithmStage.id);
    }
 
 
@@ -57,7 +81,7 @@ function NavigationStage(props: Props): ReactElement {
             <button
                type="button"
                className="navigationStage"
-               onClick={() => setIsExtended(!isExtended)}
+               onClick={handleStageClick}
             >
                <div className={`navigationStageStatus ${buildStatusStateClass()}`} />
                <div className="navigationStageName">{algorithmStage.name}</div>

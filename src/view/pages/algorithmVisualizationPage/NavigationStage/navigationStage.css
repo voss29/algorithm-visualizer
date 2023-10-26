@@ -28,8 +28,11 @@
 
 .navigationStageStep {
    border: 1px solid black;
-   padding: .5rem;
-   padding-left: 2rem;
+   display: block;
    margin-bottom: 5px;
    margin-top: 5px;
+   min-width: 100%;
+   padding: .5rem;
+   padding-left: 2rem;
+   text-align: left;
 }
