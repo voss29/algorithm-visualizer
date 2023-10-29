@@ -6,28 +6,38 @@ import { GraphVisualization } from '../../shared/GraphVisualization/GraphVisuali
 import { ControlBar } from './ControlBar/ControlBar';
 
 
+function useAsyncReference<T>(value: T) {
+   const ref = useRef(value);
+   const [, forceRerender] = useState(false);
+
+   function updateState(state: T) {
+      const isStateDifferent = !Object.is(ref.current, state);
+      if (isStateDifferent) {
+         ref.current = state;
+         forceRerender((stateValue) => !stateValue);
+      }
+   }
+
+   return { state: ref, setState: updateState };
+}
+
+
 function AlgorithmVisualizationPage(): ReactElement {
 
    const algorithm = useContext(AlgorithmContext);
 
-   const [stageId, setStageId] = useState(0);
-   const [stepId, setStepId] = useState(0);
-   const [speed, setSpeed] = useState(5_000);
-   const [animationId, setAnimationId] = useState(0);
-
-   const refStageId = useRef(stageId);
-   const refStepId = useRef(stepId);
-   const refSpeed = useRef(speed);
-   const refAnimationId = useRef(animationId);
+   const { state: stageId, setState: setStageId } = useAsyncReference(0);
+   const { state: stepId, setState: setStepId } = useAsyncReference(0);
+   const speed = useRef(1_000);
+   const animationId = useRef(0);
 
 
    useEffect(
       () => {
          startAnimation();
          const cleanUp = () => {
-            window.clearInterval(refAnimationId.current);
-            setAnimationId(0);
-            refAnimationId.current = 0;
+            window.clearInterval(animationId.current);
+            animationId.current = 0;
          };
          return cleanUp;
       },
@@ -36,46 +46,46 @@ function AlgorithmVisualizationPage(): ReactElement {
 
 
    function incrementStepId() {
-      const stepAmount = 0 ?? algorithm?.executionLog[refStageId.current].stepList.length;
-      const isCurrentStageCompleted = refStepId.current >= stepAmount;
+      const stepAmount = algorithm?.executionLog[stageId.current].stepList.length ?? 0;
+      const isCurrentStageCompleted = stepId.current >= stepAmount;
 
-      const stageAmount = 0 ?? algorithm?.executionLog.length;
-      const isVisualizationFinished = refStageId.current === stageAmount;
+      const stageAmount = algorithm?.executionLog.length ?? 0;
+      const isVisualizationFinished = stageId.current === stageAmount;
+      console.log(isVisualizationFinished);
 
       if (isVisualizationFinished) {
+         console.log('pause animation');
          pauseAnimation();
          return;
       }
 
       if (!isCurrentStageCompleted) {
-         setStepId((id) => id + 1);
-         refStepId.current += 1;
+         console.log(`increment step id to ${stepId.current + 1}`);
+         setStepId(stepId.current + 1);
          return;
       }
 
       if (isCurrentStageCompleted && !isVisualizationFinished) {
-         setStageId((id) => id + 1);
-         refStageId.current += 1;
+         console.log(`increment stage id to ${stageId.current + 1}`);
+         setStageId(stageId.current + 1);
          setStepId(0);
-         refStepId.current = 0;
       }
    }
 
 
    function startAnimation() {
-      const id = window.setInterval(incrementStepId, refSpeed.current);
-      setAnimationId(id);
-      refAnimationId.current = id;
+      const id = window.setInterval(incrementStepId, speed.current);
+      animationId.current = id;
    }
 
 
    function pauseAnimation() {
-      window.clearInterval(refAnimationId.current);
+      window.clearInterval(animationId.current);
    }
 
 
    function buildMermaidParserConfigForCurrentGraph() {
-      const currentStep = algorithm?.executionLog[refStageId.current].stepList[refStageId.current];
+      const currentStep = algorithm?.executionLog[stageId.current].stepList[stageId.current];
       if (currentStep) {
          return algorithm.buildParserConfig(currentStep.data, currentStep.highlightData);
       }
@@ -85,11 +95,11 @@ function AlgorithmVisualizationPage(): ReactElement {
 
    function buildStageList(): ReactElement[] | undefined {
       const stageList = algorithm?.executionLog
-         .filter((stage) => stage.id <= refStageId.current)
+         .filter((stage) => stage.id <= stageId.current)
          .map((stage, index) => {
-            const isStageCompleted = stage.id < refStageId.current;
-            const isStageActive = stage.id === refStageId.current;
-            const currentStepIndex = (isStageActive) ? refStepId.current : -1;
+            const isStageCompleted = stage.id < stageId.current;
+            const isStageActive = stage.id === stageId.current;
+            const currentStepIndex = (isStageActive) ? stepId.current : -1;
 
             return (
                <NavigationStage
@@ -114,7 +124,6 @@ function AlgorithmVisualizationPage(): ReactElement {
             <GraphVisualization parserConfig={buildMermaidParserConfigForCurrentGraph()} />
             <ControlBar
                speed={speed}
-               setSpeed={setSpeed}
                startAnimation={startAnimation}
                pauseAnimation={pauseAnimation}
             />
