@@ -1,12 +1,11 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { ReactElement, useState } from 'react';
+import React, { ReactElement, MutableRefObject, useState } from 'react';
 import playIcon from '../../../icons/playIcon.svg';
 import pauseIcon from '../../../icons/pauseIcon.svg';
 
 
 type Props = {
-   speed: number,
-   setSpeed: (speed: number) => void,
+   speed: MutableRefObject<number>,
    startAnimation: (durationInMilliseconds: number) => void,
    pauseAnimation: () => void
 };
@@ -14,10 +13,10 @@ type Props = {
 
 function ControlBar(props: Props): ReactElement {
 
-   const { speed, setSpeed, startAnimation, pauseAnimation } = props;
+   const { speed, startAnimation, pauseAnimation } = props;
    const [isPaused, setIsPaused] = useState(false);
 
-   const startClick = () => { startAnimation(speed); setIsPaused(false); };
+   const startClick = () => { startAnimation(speed.current); setIsPaused(false); };
    const pause = () => { pauseAnimation(); setIsPaused(true); };
 
 
@@ -45,8 +44,8 @@ function ControlBar(props: Props): ReactElement {
                name="speed"
                min="1"
                max="10"
-               value={speed}
-               onChange={(e) => setSpeed(Number.parseInt(e.target.value, 10))}
+               value={speed.current}
+               onChange={(e) => { speed.current = Number.parseInt(e.target.value, 10); }}
             />
             Speed
          </label>
