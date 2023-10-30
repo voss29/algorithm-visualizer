@@ -10,8 +10,8 @@ type Props = {
 
 
 function GraphVisualization(props: Props): ReactElement | null {
-   const { parserConfig } = props;
 
+   const { parserConfig } = props;
    const [graphSVGString, setGraphSVGString] = useState('');
 
    useEffect(() => {
@@ -23,7 +23,7 @@ function GraphVisualization(props: Props): ReactElement | null {
          }
       }
       renderSVG();
-   }, []);
+   }, [parserConfig]);
 
    if (parserConfig) {
       // TODO: find better solution
