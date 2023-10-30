@@ -28,7 +28,7 @@ function AlgorithmVisualizationPage(): ReactElement {
 
    const { state: stageId, setState: setStageId } = useAsyncReference(0);
    const { state: stepId, setState: setStepId } = useAsyncReference(0);
-   const speed = useRef(1_000);
+   const speed = useRef(4_000);
    const animationId = useRef(0);
 
 
@@ -81,7 +81,7 @@ function AlgorithmVisualizationPage(): ReactElement {
 
 
    function buildMermaidParserConfigForCurrentGraph() {
-      const currentStep = algorithm?.executionLog[stageId.current].stepList[stageId.current];
+      const currentStep = algorithm?.executionLog[stageId.current].stepList[stepId.current];
       if (currentStep) {
          return algorithm.buildParserConfig(currentStep.data, currentStep.highlightData);
       }
