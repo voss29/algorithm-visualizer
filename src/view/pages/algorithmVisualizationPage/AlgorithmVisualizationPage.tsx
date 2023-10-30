@@ -47,26 +47,22 @@ function AlgorithmVisualizationPage(): ReactElement {
 
    function incrementStepId() {
       const stepAmount = algorithm?.executionLog[stageId.current].stepList.length ?? 0;
-      const isCurrentStageCompleted = stepId.current >= stepAmount;
+      const isCurrentStageCompleted = stepId.current === stepAmount;
 
       const stageAmount = algorithm?.executionLog.length ?? 0;
-      const isVisualizationFinished = stageId.current === stageAmount;
-      console.log(isVisualizationFinished);
-
-      if (isVisualizationFinished) {
-         console.log('pause animation');
-         pauseAnimation();
-         return;
-      }
+      const isFinalStage = stageId.current === stageAmount - 1;
 
       if (!isCurrentStageCompleted) {
-         console.log(`increment step id to ${stepId.current + 1}`);
          setStepId(stepId.current + 1);
          return;
       }
 
-      if (isCurrentStageCompleted && !isVisualizationFinished) {
-         console.log(`increment stage id to ${stageId.current + 1}`);
+      if (isCurrentStageCompleted && isFinalStage) {
+         pauseAnimation();
+         return;
+      }
+
+      if (isCurrentStageCompleted && !isFinalStage) {
          setStageId(stageId.current + 1);
          setStepId(0);
       }
