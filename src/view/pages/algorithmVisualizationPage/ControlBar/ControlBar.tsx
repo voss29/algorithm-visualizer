@@ -38,17 +38,17 @@ function ControlBar(props: Props): ReactElement {
 
    return (
       <section className="controlBar">
-         <label>
-            <input
-               type="range"
-               name="speed"
-               min="1"
-               max="10"
-               value={speed.current}
-               onChange={(e) => { speed.current = Number.parseInt(e.target.value, 10); }}
-            />
-            Speed
-         </label>
+         <label htmlFor="speed">Speed</label>
+         <input
+            type="range"
+            name="speed"
+            list="values"
+            min="1000"
+            max="10000"
+            step="1000"
+            value={speed.current}
+            onChange={(e) => { speed.current = Number.parseInt(e.target.value, 10); }}
+         />
          { buildPlayButton() }
       </section>
    );
