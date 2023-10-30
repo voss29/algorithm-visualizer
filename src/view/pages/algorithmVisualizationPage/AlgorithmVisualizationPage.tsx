@@ -57,14 +57,14 @@ function AlgorithmVisualizationPage(): ReactElement {
          return;
       }
 
-      if (isCurrentStageCompleted && isFinalStage) {
-         pauseAnimation();
-         return;
-      }
-
       if (isCurrentStageCompleted && !isFinalStage) {
          setStageId(stageId.current + 1);
          setStepId(0);
+         return;
+      }
+
+      if (isCurrentStageCompleted && isFinalStage) {
+         pauseAnimation();
       }
    }
 
