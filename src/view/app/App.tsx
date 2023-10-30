@@ -7,6 +7,7 @@ import { AlgorithmContext } from './AppContext';
 import { AppRouting } from './AppRouting';
 import './app.css';
 
+
 type Algorithm = AlgorithmExecutor<AlgorithmData, HighlightData> | undefined;
 
 
